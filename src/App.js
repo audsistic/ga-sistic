@@ -1,24 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import './css/App.css';
+import { Switch, Route } from "react-router-dom";
 
 import CompTest from './experiments/ComponentTest';
-
-import './App.css';
-
-import Button from '@material-ui/core/Button';
+import Home from './Home';
+import NoMatch from './errors/ErrorPage';
 
 function App() {
   return (
-    <Router>
       <div className="App">
-        <header className="App-header">
-          <Button variant="contained" color="primary">
-            Hello World
-          </Button>
-        </header>
-        <Route exact path="/components" component={CompTest} />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/components" component={CompTest} />
+
+          {/* when none of the above match, <NoMatch> will be rendered */}
+          <Route component={NoMatch} />
+        </Switch>
       </div>
-    </Router>
   );
 }
 
