@@ -76,9 +76,9 @@ const VerticalTabs = withStyles(theme => ({
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 24 }}>
-      {props.children}
-    </Typography>
+      <Typography component="div" style={{ padding: '0px 72px' }}>
+        {props.children}
+      </Typography>
   );
 }
 

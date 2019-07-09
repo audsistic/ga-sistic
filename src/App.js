@@ -4,6 +4,8 @@ import './App.css';
 import { Switch, Route, Link } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
+
+import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -77,7 +79,7 @@ function App() {
               </Toolbar>
             </AppBar>
           </div>
-          <div className="margin-components">
+          <Container maxWidth="md">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/components" component={CompTest} />
@@ -85,7 +87,7 @@ function App() {
               {/* when none of the above match, <NoMatch> will be rendered */}
               <Route component={NoMatch} />
             </Switch>
-          </div>
+          </Container>
       </div>
   );
 }
