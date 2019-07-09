@@ -1,13 +1,11 @@
 import React from 'react';
-import './assets/css/App.css';
+import './App.css';
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -19,7 +17,7 @@ import NoMatch from './errors/ErrorPage';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    marginBottom: '70px',
+    marginBottom: '50px',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -27,8 +25,27 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  toolbarTop: {
+    backgroundImage: 'linear-gradient(90deg, #0080C9, #C86DD7)',
+    minHeight: '55px',
+  },
+  toolbarBottom: {
+    background: '#FFFFFF',
+    minHeight: '81px',
+  }
 }));
 
+const sisticLogo = {
+  width: "93px", 
+  height: "42px",
+  marginLeft: '222px',
+}
+
+const linkStyle = {
+  textDecoration: 'none',
+  color: '#D8D8D8',
+  fontSize: '14px',
+}
 
 function App() {
 
@@ -36,26 +53,39 @@ function App() {
 
   return (
       <div className="App">
+
           <div className={classes.root}>
-            <AppBar position="fixed">
-              <Toolbar>
+            <AppBar position="static">
+              <Toolbar classes={{
+                  root: classes.toolbarTop
+                }}>
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
                   <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                  Gem Arbituals
-                </Typography>
-                <Button color="inherit">Login</Button>
+                <div className="row justify-content-end">
+                  <Link to="/organiser" style={linkStyle}>Organiser</Link>
+                  <Link to="/organiser" style={linkStyle}>Your Account</Link>
+                </div>
+              </Toolbar>
+              <Toolbar
+                classes={{
+                  root: classes.toolbarBottom
+                }}>
+                  <div style={sisticLogo}>
+                    <img src={require("../src/assets/images/icons/sistic_logo.png")} alt="" width="100%" height="100%"/>
+                  </div>
               </Toolbar>
             </AppBar>
           </div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/components" component={CompTest} />
+          <div className="margin-components">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/components" component={CompTest} />
 
-            {/* when none of the above match, <NoMatch> will be rendered */}
-            <Route component={NoMatch} />
-          </Switch>
+              {/* when none of the above match, <NoMatch> will be rendered */}
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
       </div>
   );
 }
