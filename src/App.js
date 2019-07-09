@@ -19,6 +19,7 @@ import NoMatch from './errors/ErrorPage';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    marginBottom: '70px',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -48,13 +49,13 @@ function App() {
               </Toolbar>
             </AppBar>
           </div>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/components" component={CompTest} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/components" component={CompTest} />
 
-          {/* when none of the above match, <NoMatch> will be rendered */}
-          <Route component={NoMatch} />
-        </Switch>
+            {/* when none of the above match, <NoMatch> will be rendered */}
+            <Route component={NoMatch} />
+          </Switch>
       </div>
   );
 }
