@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       minHeight: '55px',
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       minHeight: '16px',
     },
   },
@@ -93,9 +93,11 @@ function App() {
                     <img src={require("../src/assets/images/icons/sistic_logo.png")} alt="" width="100%" height="100%"/>
                   </div>
 
-                <IconButton edge="end" className={classes.menuButton} aria-label="Menu">
-                  <MenuIcon />
-                </IconButton>
+                  <div className="mobile d-md-none">
+                  <IconButton edge="end" className={classes.menuButton} aria-label="Menu">
+                    <MenuIcon />
+                  </IconButton>
+                </div>
               </Toolbar>
             </AppBar>
           </div>

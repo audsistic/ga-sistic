@@ -4,6 +4,7 @@ FROM node:8 as ga-sistic
 
 # Create app directory
 WORKDIR /ga-sistic/src
+ADD VERSION .
 
 # Install app dependencies
 COPY package*.json ./
