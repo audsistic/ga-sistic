@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     marginBottom: '50px',
+    width: '100%',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -29,18 +30,30 @@ const useStyles = makeStyles(theme => ({
   },
   toolbarTop: {
     backgroundImage: 'linear-gradient(90deg, #0080C9, #C86DD7)',
-    minHeight: '55px',
+    [theme.breakpoints.up('md')]: {
+      minHeight: '55px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '16px',
+    },
   },
   toolbarBottom: {
     background: '#FFFFFF',
     minHeight: '81px',
+  },
+  container: {
+    [theme.breakpoints.up('md')]: {
+      margin: '0 72px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 4px',
+    },
   }
 }));
 
 const sisticLogo = {
   width: "93px", 
   height: "42px",
-  marginLeft: '222px',
 }
 
 const linkStyle = {
@@ -54,17 +67,16 @@ function App() {
   const classes = useStyles();
 
   return (
-      <div className="App">
+      <div className="main">
 
           <div className={classes.root}>
             <AppBar position="static">
-              <Toolbar classes={{
+              <Toolbar 
+                className="row justify-content-end"
+                classes={{
                   root: classes.toolbarTop
                 }}>
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
-                  <MenuIcon />
-                </IconButton>
-                <div className="row justify-content-end">
+                <div className="desktop d-none d-md-block">
                   <Link to="/organiser" style={linkStyle}>Organiser</Link>
                   <Link to="/organiser" style={linkStyle}>Your Account</Link>
                 </div>
@@ -73,21 +85,34 @@ function App() {
                 classes={{
                   root: classes.toolbarBottom
                 }}>
-                  <div style={sisticLogo}>
+                  <div className="desktop d-none d-md-block" style={Object.assign({ marginLeft: '222px', }, sisticLogo)}>
                     <img src={require("../src/assets/images/icons/sistic_logo.png")} alt="" width="100%" height="100%"/>
                   </div>
+
+                  <div className="mobile d-md-none" style={Object.assign({ marginLeft: '18px', }, sisticLogo)}>
+                    <img src={require("../src/assets/images/icons/sistic_logo.png")} alt="" width="100%" height="100%"/>
+                  </div>
+
+                <IconButton edge="end" className={classes.menuButton} aria-label="Menu">
+                  <MenuIcon />
+                </IconButton>
               </Toolbar>
             </AppBar>
           </div>
-          <Container maxWidth="md">
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/components" component={CompTest} />
+          <div>
+            <Container 
+              classes={{
+                root: classes.container
+              }}>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/components" component={CompTest} />
 
-              {/* when none of the above match, <NoMatch> will be rendered */}
-              <Route component={NoMatch} />
-            </Switch>
-          </Container>
+                {/* when none of the above match, <NoMatch> will be rendered */}
+                <Route component={NoMatch} />
+              </Switch>
+            </Container>
+          </div>
       </div>
   );
 }

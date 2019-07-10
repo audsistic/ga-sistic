@@ -10,11 +10,19 @@ import { Typography } from '@material-ui/core';
 const styles = theme => ({
   marginRoot: {
     margin: '0 24px',
+    [theme.breakpoints.down('sm')]: {
+        margin: '0px',
+    },
   },
   textField: {
     border: '1px solid #E7E7E7',
-    width: '487px',
     height: '100%',
+    [theme.breakpoints.up('md')]: {
+        width: '33.819444vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+        width: '90.09661vw',
+    },
   },
   inputProps: {
     background: '#FFFFFF',
@@ -65,7 +73,7 @@ class Inputs extends React.Component {
     this.state = {
       username: "",
       shrink: false,
-      activeIndex: 0,
+      dateShrink: false,
     }
   }
   
@@ -73,6 +81,12 @@ class Inputs extends React.Component {
       const { onFocus } = this.props;
       this.setState({shrink: true});
       onFocus && onFocus(event); 
+    };
+
+    shrinkLabelDate = (event) => {
+        const { onFocus } = this.props;
+        this.setState({dateShrink: true});
+        onFocus && onFocus(event); 
     };
 
     unShrinkLabel = (event) => {
@@ -83,15 +97,21 @@ class Inputs extends React.Component {
         onBlur && onBlur(event); 
     };
 
+    unShrinkLabelDate = (event) => {
+        const { onBlur } = this.props;
+        if(event.target.value.length === 0) {
+            this.setState({dateShrink: false})
+        }
+        onBlur && onBlur(event); 
+    };
+
     render() {
 
       const { classes } = this.props;
 
       return (
         <div className="input-components">
-          <Typography variant="h4">
-             Input Fields
-          </Typography>
+    
           <FormControl classes={{root: classes.marginRoot}}>
             
             <TextField
@@ -135,6 +155,8 @@ class Inputs extends React.Component {
                 variant="filled"
                 defaultValue="DD-MM-YYYY"
                 className={classes.textField}
+                onFocus={this.shrinkLabelDate}
+                onBlur={this.unShrinkLabelDate}
                 InputProps={{
                     classes: {
                         root: classes.inputPropsDT,
@@ -153,7 +175,7 @@ class Inputs extends React.Component {
                     root: classes.inputLabel,
                     focused: classes.inputLabelFocused,
                     },
-                    shrink: this.state.shrink,
+                    shrink: this.state.dateShrink,
                 }}
             />
           </FormControl>

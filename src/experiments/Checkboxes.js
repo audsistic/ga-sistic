@@ -33,10 +33,6 @@ class Checkboxes extends React.Component {
 
       return (
         <div className="checkbox-components">
-
-          <Typography variant="h4">
-             Checkboxes
-          </Typography>
           
           <FormGroup row>
             <FormControlLabel
