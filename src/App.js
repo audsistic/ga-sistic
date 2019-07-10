@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
   toolbarBottom: {
     background: '#FFFFFF',
     minHeight: '81px',
+    position: 'relative',
   },
   container: {
     [theme.breakpoints.up('md')]: {
@@ -60,6 +61,11 @@ const linkStyle = {
   textDecoration: 'none',
   color: '#D8D8D8',
   fontSize: '14px',
+}
+
+const menuBar = {
+  position: 'absolute',
+  right: 0,
 }
 
 function App() {
@@ -93,10 +99,10 @@ function App() {
                     <img src={require("../src/assets/images/icons/sistic_logo.png")} alt="" width="100%" height="100%"/>
                   </div>
 
-                  <div className="mobile d-md-none">
-                  <IconButton edge="end" className={classes.menuButton} aria-label="Menu">
-                    <MenuIcon />
-                  </IconButton>
+                  <div className="mobile d-md-none" style={menuBar}>
+                    <IconButton edge="end" className={classes.menuButton} aria-label="Menu">
+                      <MenuIcon />
+                    </IconButton>
                 </div>
               </Toolbar>
             </AppBar>

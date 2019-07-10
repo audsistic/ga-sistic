@@ -61,11 +61,15 @@ class ComponentTest extends React.Component {
           </div>
           <div className="mobile d-md-none">
               <div>Welcome, John Doe</div>
-              <div>
-                <InputComponent />
-                <ButtonComponent />
-                <CheckboxComponent />
-              </div>
+                <div className="row-margin">
+                  <InputComponent />
+                </div>
+                <div className="row-margin">
+                  <ButtonComponent />
+                </div>
+                <div className="row-margin">
+                  <CheckboxComponent />
+                </div>
           </div>
     </div>
       );

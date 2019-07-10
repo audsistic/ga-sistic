@@ -13,30 +13,36 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = theme => ({
   marginRoot: {
-    margin: '0 24px',
+    [theme.breakpoints.up('md')]: {
+      margin: '0 24px',
+      width: '33.819444vw',
+      maxWidth: '487px',
+    },
     [theme.breakpoints.down('sm')]: {
-        margin: '0px',
+        margin: '7.5px 0px',
+        width: '90.09661vw',
+        maxWidth: '373px',
+    },
+  },
+  marginRootSelect: {
+    [theme.breakpoints.up('md')]: {
+      margin: '0 24px',
+      width: '45.625vw',
+      maxWidth: '657px',
+    },
+    [theme.breakpoints.down('sm')]: {
+        margin: '7.5px 0px',
+        width: '90.09661vw',
+        maxWidth: '373px',
     },
   },
   textField: {
     border: '1px solid #E7E7E7',
-    height: '100%',
-    [theme.breakpoints.up('md')]: {
-        width: '33.819444vw',
-    },
-    [theme.breakpoints.down('sm')]: {
-        width: '90.09661vw',
-    },
+    boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
   },
   textFieldDate: {
     border: '1px solid #E7E7E7',
-    height: '100%',
-    [theme.breakpoints.up('md')]: {
-        width: '24.3056666vw',
-    },
-    [theme.breakpoints.down('sm')]: {
-        width: '90.09661vw',
-    },
+    boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
   },
   inputProps: {
     background: '#FFFFFF',
@@ -63,12 +69,14 @@ const styles = theme => ({
   inputLabel: {
     fontSize: '18px',
     color: '#777777',
+    textDecoration: 'none solid rgb(119, 119, 119)',
     paddingTop: '10px',
     paddingLeft: '88.17px',
   },
   inputLabelDate: {
     fontSize: '16px',
     color: '#777777',
+    textDecoration: 'none solid rgb(119, 119, 119)',
   },
   inputLabelFocused: {
     color: '#0080C9 !important',
@@ -84,6 +92,20 @@ const styles = theme => ({
     marginRight: '7px',
     
   },
+
+  //select 
+  select: {
+    background: '#FFFFFF',
+    border: '1px solid #E7E7E7',
+    boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
+    height: '59px',
+  },
+  selectInputProps: {
+    color: '#4D4D4D',
+    paddingLeft: '25px',
+    display: 'flex',
+    alignItems: 'center',
+  }
 });
 
 const inputNativeBefore = {
@@ -100,12 +122,12 @@ const inputNativeAfter = {
     paddingTop: '32px',
 }
 
-const types = ["Comedy", "Concert", "Comedy", "Dance"];
+const types = ["Concert", "Comedy", "Dance", "Others"];
 
 const MenuProps = {
   PaperProps: {
     style: {
-      width: 250,
+      width: '657px',
     },
   },
 };
@@ -234,20 +256,25 @@ class Inputs extends React.Component {
                 }}
             />
           </FormControl>
-          <FormControl className={classes.marginRoot}>
+          <FormControl className={classes.marginRootSelect}>
             <Select
+              classes={{
+                root: classes.select,
+                select: classes.selectInputProps,
+              }}
               multiple
               displayEmpty
               value={types}
               onChange={this.handleChange}
-              input={<Input id="select-multiple-placeholder" />}
+              input={<Input id="select-list" />}
               renderValue={selected => {
-                if (selected.length === 0) {
-                  return <em>Placeholder</em>;
+                if (this.state.type.length === 0) {
+                  return "Type";
                 }
 
                 return selected.join(', ');
               }}
+              disableUnderline={true}
               MenuProps={MenuProps}
             >
               <MenuItem disabled value="">
