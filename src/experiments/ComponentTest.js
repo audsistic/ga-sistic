@@ -11,6 +11,7 @@ import Tab from '@material-ui/core/Tab'
 import ButtonComponent from './Buttons';
 import InputComponent from './Inputs';
 import CheckboxComponent from './Checkboxes';
+import ModalComponent from './Modal';
 
 const styles = theme => ({
 });
@@ -23,7 +24,7 @@ class ComponentTest extends React.Component {
     this.state = {
       username: "",
       shrink: false,
-      activeIndex: 2,
+      activeIndex: 1,
     }
     this.handleTabChange = this.handleTabChange.bind(this);
   }
@@ -49,11 +50,13 @@ class ComponentTest extends React.Component {
                 <MyTab label='Buttons' />
                 <MyTab label='Inputs' />
                 <MyTab label='Checkboxes' />
+                <MyTab label='Modal' />
               </VerticalTabs>
 
               { this.state.activeIndex === 0 && <TabContainer><ButtonComponent /></TabContainer> }
               { this.state.activeIndex === 1 && <TabContainer><InputComponent /></TabContainer> }
               { this.state.activeIndex === 2 && <TabContainer><CheckboxComponent /></TabContainer> }
+              { this.state.activeIndex === 3 && <TabContainer><ModalComponent /></TabContainer> }
             </div>
           </div>
           <div className="mobile d-md-none">

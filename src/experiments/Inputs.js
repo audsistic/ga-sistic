@@ -28,6 +28,16 @@ const styles = theme => ({
         width: '90.09661vw',
     },
   },
+  textFieldDate: {
+    border: '1px solid #E7E7E7',
+    height: '100%',
+    [theme.breakpoints.up('md')]: {
+        width: '24.3056666vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+        width: '90.09661vw',
+    },
+  },
   inputProps: {
     background: '#FFFFFF',
     height: '81px',
@@ -190,7 +200,7 @@ class Inputs extends React.Component {
                 margin="normal"
                 variant="filled"
                 defaultValue="DD-MM-YYYY"
-                className={classes.textField}
+                className={classes.textFieldDate}
                 onFocus={this.shrinkLabelDate}
                 onBlur={this.unShrinkLabelDate}
                 InputProps={{
@@ -224,7 +234,7 @@ class Inputs extends React.Component {
                 }}
             />
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={classes.marginRoot}>
             <Select
               multiple
               displayEmpty
