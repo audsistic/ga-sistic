@@ -9,7 +9,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 const styles = theme => ({
-  
+  checkbox: {
+      width: '17px',
+      height: '17px',
+      margin: '7px',
+      color: '#666666',
+      fill: '#9E9E9E',
+  },
+  checked: {
+       color: '#0080C9 !important',
+  }
 });
 
 class Checkboxes extends React.Component {
@@ -23,8 +32,8 @@ class Checkboxes extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-    handleChange(event) {
-        this.setState({private: event.target.value });
+    handleChange() {
+        this.setState(prevState => ({private: !prevState.private }));
     };
 
     render() {
@@ -37,7 +46,13 @@ class Checkboxes extends React.Component {
           <FormGroup row>
             <FormControlLabel
                 control={
-                <Checkbox checked={this.state.private} onChange={this.handleChange} value="checkedA" />
+                <Checkbox 
+                    classes={{
+                        root: classes.checkbox,
+                        checked: classes.checked,
+                    }}
+                    checked={this.state.private} 
+                    onChange={this.handleChange} />
                 }
                 label="Check if this is a private event"
             />

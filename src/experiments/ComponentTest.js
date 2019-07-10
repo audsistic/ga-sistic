@@ -23,7 +23,7 @@ class ComponentTest extends React.Component {
     this.state = {
       username: "",
       shrink: false,
-      activeIndex: 0,
+      activeIndex: 2,
     }
     this.handleTabChange = this.handleTabChange.bind(this);
   }

@@ -7,6 +7,10 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { Typography } from '@material-ui/core';
 
+import Input from '@material-ui/core/Input';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
 const styles = theme => ({
   marginRoot: {
     margin: '0 24px',
@@ -35,7 +39,7 @@ const styles = theme => ({
       border: '1px solid #0080C9',
     },
   },
-  inputPropsDT: {
+  inputPropsDate: {
     background: '#FFFFFF',
     height: '71px',
     transform: 'unset',
@@ -52,18 +56,49 @@ const styles = theme => ({
     paddingTop: '10px',
     paddingLeft: '88.17px',
   },
-  inputLabelFocused: {
-    color: '#D8D8D8',
-    padding: '0px',
+  inputLabelDate: {
+    fontSize: '16px',
+    color: '#777777',
   },
-  inputLabelShrink: {
-    color: '#D8D8D8',
+  inputLabelFocused: {
+    color: '#0080C9 !important',
+    padding: '0px',
   },
   inputAdornment: {
     marginTop: '0px !important',
     marginLeft: '10px',
-  }
+
+  },
+  inputAdornmentDate: {
+    marginTop: '0px !important',
+    marginRight: '7px',
+    
+  },
 });
+
+const inputNativeBefore = {
+    fontSize: '11px',
+    textTransform: 'uppercase',
+    color: '#A1A1A1',
+    paddingTop: '32px',
+}
+
+const inputNativeAfter = {
+    fontSize: '16px',
+    textTransform: 'lowercase',
+    color: '#A1A1A1',
+    paddingTop: '32px',
+}
+
+const types = ["Comedy", "Concert", "Comedy", "Dance"];
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      width: 250,
+    },
+  },
+};
 
 class Inputs extends React.Component {
 
@@ -74,6 +109,7 @@ class Inputs extends React.Component {
       username: "",
       shrink: false,
       dateShrink: false,
+      type: "",
     }
   }
   
@@ -159,27 +195,61 @@ class Inputs extends React.Component {
                 onBlur={this.unShrinkLabelDate}
                 InputProps={{
                     classes: {
-                        root: classes.inputPropsDT,
+                        root: classes.inputPropsDate,
                     }, 
                     disableUnderline: true,
                     endAdornment: 
-                    !this.state.shrink && 
+                    !this.state.dateShrink && 
                         <InputAdornment 
                             position="end"
-                            classes={{positionEnd: classes.inputAdornment}}>
+                            classes={{positionEnd: classes.inputAdornmentDate}}>
                             <img src={require("../../src/assets/images/icons/calendar.svg")} alt="" />
-                        </InputAdornment>
+                        </InputAdornment>,
+                    inputProps: {
+                        style: this.state.dateShrink ? inputNativeAfter : inputNativeBefore,
+                    }
+    
                 }}
                 InputLabelProps={{
                     classes: {
-                    root: classes.inputLabel,
-                    focused: classes.inputLabelFocused,
+                        root: classes.inputLabelDate,
+                        focused: classes.inputLabelFocused,
                     },
                     shrink: this.state.dateShrink,
                 }}
+                inputProps={{
+                    classes: {
+                        root: classes.inputNative
+                    }
+                }}
             />
           </FormControl>
+          <FormControl className={classes.formControl}>
+            <Select
+              multiple
+              displayEmpty
+              value={types}
+              onChange={this.handleChange}
+              input={<Input id="select-multiple-placeholder" />}
+              renderValue={selected => {
+                if (selected.length === 0) {
+                  return <em>Placeholder</em>;
+                }
 
+                return selected.join(', ');
+              }}
+              MenuProps={MenuProps}
+            >
+              <MenuItem disabled value="">
+                <em>Type</em>
+              </MenuItem>
+              {types.map(type => (
+                <MenuItem key={type} value={type}>
+                  {type}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </div>
       );
     }

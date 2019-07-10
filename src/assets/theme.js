@@ -21,18 +21,6 @@ let theme = createMuiTheme({
         default: '#F6F6F6',
       },
     },
-    MuiInputLabel: {
-      root: {
-        fontSize: '18px',
-        color: '#777777',
-        paddingTop: '10px',
-        paddingLeft: '88.17px',
-      },
-      focused: {
-        color: '#206B96',
-        padding: '0px',
-      }
-    }
   });
   
   theme = responsiveFontSizes(theme);
