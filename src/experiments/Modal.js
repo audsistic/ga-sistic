@@ -191,7 +191,7 @@ class Modal extends React.Component {
                     <Typography variant="h2">Forgotten your password? Enter your email address below.</Typography>
                         <FormControl classes={{root: classes.marginRoot}}>
                             <TextField
-                                    autoFocus
+                                    // autoFocus
                                     margin="normal"
                                     variant="filled"
                                     id="name"

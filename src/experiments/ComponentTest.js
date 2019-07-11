@@ -12,6 +12,7 @@ import ButtonComponent from './Buttons';
 import InputComponent from './Inputs';
 import CheckboxComponent from './Checkboxes';
 import ModalComponent from './Modal';
+import CardComponent from './Cards';
 
 const styles = theme => ({
 });
@@ -24,7 +25,7 @@ class ComponentTest extends React.Component {
     this.state = {
       username: "",
       shrink: false,
-      activeIndex: 1,
+      activeIndex: 4,
     }
     this.handleTabChange = this.handleTabChange.bind(this);
   }
@@ -51,12 +52,14 @@ class ComponentTest extends React.Component {
                 <MyTab label='Inputs' />
                 <MyTab label='Checkboxes' />
                 <MyTab label='Modal' />
+                <MyTab label='Cards' />
               </VerticalTabs>
 
               { this.state.activeIndex === 0 && <TabContainer><ButtonComponent /></TabContainer> }
               { this.state.activeIndex === 1 && <TabContainer><InputComponent /></TabContainer> }
               { this.state.activeIndex === 2 && <TabContainer><CheckboxComponent /></TabContainer> }
               { this.state.activeIndex === 3 && <TabContainer><ModalComponent /></TabContainer> }
+              { this.state.activeIndex === 4 && <TabContainer><CardComponent /></TabContainer> }
             </div>
           </div>
           <div className="mobile d-md-none">
@@ -72,6 +75,9 @@ class ComponentTest extends React.Component {
                 </div>
                 <div className="row-margin">
                   <ModalComponent />
+                </div>
+                <div className="row-margin">
+                  <CardComponent />
                 </div>
           </div>
     </div>

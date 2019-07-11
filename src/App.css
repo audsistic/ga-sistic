@@ -3,6 +3,10 @@ body {
   padding-right: 0px !important;
 }
 
+button:focus {
+  outline: none;
+}
+
 .margin-components {
   margin: 0px 15.69444vw;
 }

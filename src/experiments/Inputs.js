@@ -24,18 +24,6 @@ const styles = theme => ({
         maxWidth: '373px',
     },
   },
-  marginRootSelect: {
-    [theme.breakpoints.up('md')]: {
-      margin: '0 24px',
-      width: '45.625vw',
-      maxWidth: '657px',
-    },
-    [theme.breakpoints.down('sm')]: {
-        margin: '7.5px 0px',
-        width: '90.09661vw',
-        maxWidth: '373px',
-    },
-  },
   textField: {
     border: '1px solid #E7E7E7',
     boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
@@ -94,6 +82,18 @@ const styles = theme => ({
   },
 
   //select 
+  marginRootSelect: {
+    [theme.breakpoints.up('md')]: {
+      margin: '16px 24px',
+      width: '45.625vw',
+      maxWidth: '657px',
+    },
+    [theme.breakpoints.down('sm')]: {
+        margin: '7.5px 0px',
+        width: '90.09661vw',
+        maxWidth: '373px',
+    },
+  },
   select: {
     background: '#FFFFFF',
     border: '1px solid #E7E7E7',
@@ -106,6 +106,17 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
   },
+  selectedItem: {
+    minHeight: 0,
+    lineHeight: 'normal',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
+    }
+  },
+  menulist: {
+    color: '#4D4D4D',
+  }
 });
 
 const inputNativeBefore = {
@@ -128,7 +139,12 @@ const MenuProps = {
   PaperProps: {
     style: {
       border: '1px solid #0080C9',
+      fontSize: '1rem',
+      textDecoration: 'none solid rgb(77, 77, 77)',
+      color: '#4D4D4D',
     },
+    elevation: 0,
+    square: true,
   },
 };
 
@@ -143,7 +159,14 @@ class Inputs extends React.Component {
       dateShrink: false,
       type: "",
     }
+
+    this.handleChange = this.handleChange.bind(this);
   }
+
+    handleChange(event) {
+      console.log("HELLO", event)
+      this.setState({type: event.target.value})
+    }
   
     shrinkLabel = (event) => {
       const { onFocus } = this.props;
@@ -249,43 +272,44 @@ class Inputs extends React.Component {
                     },
                     shrink: this.state.dateShrink,
                 }}
-                inputProps={{
-                    classes: {
-                        root: classes.inputNative
-                    }
-                }}
             />
           </FormControl>
           <FormControl className={classes.marginRootSelect}>
             <Select
+              value={this.state.type}
+              onChange={this.handleChange}
+              name="type"
+              displayEmpty
+              disableUnderline={true}
               classes={{
                 root: classes.select,
                 select: classes.selectInputProps,
               }}
-              multiple
-              displayEmpty
-              value={types}
-              onChange={this.handleChange}
-              input={<Input id="select-list" />}
-              renderValue={selected => {
-                if (this.state.type.length === 0) {
-                  return "Type";
-                }
-
-                return selected.join(', ');
-              }}
-              disableUnderline={true}
               MenuProps={MenuProps}
+              MenuListProps={{
+                classes: {
+                  root: classes.menulist
+                }
+              }}
             >
-              <MenuItem disabled value="">
-                Type
-              </MenuItem>
-              {types.map(type => (
-                <MenuItem key={type} value={type}>
-                  {type}
-                </MenuItem>
-              ))}
-            </Select>
+                  <MenuItem 
+                    value="" 
+                    classes={{
+                      root: classes.selectedItem
+                    }}>
+                    Type
+                  </MenuItem>
+                  {types.map(type => (
+                    <MenuItem 
+                      key={type} 
+                      value={type} 
+                      classes={{
+                        root: classes.selectedItem,
+                      }}>
+                      {type}
+                    </MenuItem>
+                  ))}
+                </Select>
           </FormControl>
         </div>
       );
