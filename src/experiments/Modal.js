@@ -17,7 +17,17 @@ const closeIcon = require('../../src/assets/images/icons/close_xicon.svg');
 
 const styles = theme => ({
     dialogBox: {
-        padding: '32px 57px 48px',
+        [theme.breakpoints.up('md')]: {
+            padding: '32px 57px 48px',
+            width: '53.4027778vw',
+            maxWidth: '769px',
+        },
+        [theme.breakpoints.down('sm')]: {
+            padding: '32px 37px 48px',
+            width: '90.33816vw',
+            maxWidth: '374px',
+            margin: 0,
+        }
     },
     marginRoot: {
         [theme.breakpoints.up('md')]: {
@@ -25,8 +35,8 @@ const styles = theme => ({
             maxWidth: '487px',
         },
         [theme.breakpoints.down('sm')]: {
-            width: '90.09661vw',
-            maxWidth: '373px',
+            width: '100%',
+            maxWidth: '300px',
         },
       },
     textField: {
@@ -119,7 +129,7 @@ class Modal extends React.Component {
     super()
     this.state = {
         shrink: false,
-        open: false,
+        open: true,
         email: "Please provide your email address",
     }
     this.handleClickOpen = this.handleClickOpen.bind(this);
@@ -172,12 +182,13 @@ class Modal extends React.Component {
             </Button>
             
             <Dialog 
-                classes={{root: classes.dialogBox}}
                 PaperProps={{
                     classes: {
                         root: classes.dialogBox,
-                    }
+                    }, 
+                    square: true,
                 }}
+                square={true}
                 open={this.state.open} 
                 onClose={this.handleClose} 
                 aria-labelledby="forgot-password"
@@ -195,7 +206,7 @@ class Modal extends React.Component {
                                     margin="normal"
                                     variant="filled"
                                     id="name"
-                                    label="Email Address"
+                                    label="Email"
                                     type="email"
                                     multiline
                                     className={classes.textField}
