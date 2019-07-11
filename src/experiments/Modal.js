@@ -7,19 +7,22 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import Typography from '@material-ui/core/Typography';
+
+import IconButton from '@material-ui/core/IconButton';
+
+const closeIcon = require('../../src/assets/images/icons/close_xicon.svg');
 
 const styles = theme => ({
     dialogBox: {
-        padding: '48px 57px',
+        padding: '32px 57px 48px',
     },
     marginRoot: {
         [theme.breakpoints.up('md')]: {
-          width: '33.819444vw',
-          maxWidth: '487px',
+            width: '33.819444vw',
+            maxWidth: '487px',
         },
         [theme.breakpoints.down('sm')]: {
             width: '90.09661vw',
@@ -29,6 +32,7 @@ const styles = theme => ({
     textField: {
         border: '1px solid #E7E7E7',
         boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
+        margin: '21px 0px 16px',
     },
     inputProps: {
         background: '#FFFFFF',
@@ -41,6 +45,9 @@ const styles = theme => ({
           border: '1px solid #0080C9',
         },
       },
+      inputFocused: {
+        background: '#FFFFFF',
+      },
       inputLabel: {
         fontSize: '16px',
         color: '#777777',
@@ -51,8 +58,36 @@ const styles = theme => ({
         padding: '0px',
       },
       typo: {
+          marginTop: '10px',
           marginBottom: '30px',
-      }
+      },
+      resetButton: {
+        background: theme.palette.primary.main,
+        padding: '20px 40px',
+        height: '56px',
+        borderRadius: '0px',
+        fontSize: '16px',
+        lineHeight: '16px',
+        textAlign: 'center',
+        '&:hover': {
+          background: theme.palette.primary.dark,
+        },
+        [theme.breakpoints.up('md')]: {
+          width: '222px',
+        },
+        [theme.breakpoints.down('sm')]: {
+          width: '100%',
+        }
+      },
+      dialogActions: {
+          justifyContent: 'flex-start',
+          padding: 0,
+      },
+      closeButton: {
+        position: 'absolute',
+        right: theme.spacing(1.5),
+        top: theme.spacing(1.5),
+      },
 });
 
 const inputNativeBefore = {
@@ -84,7 +119,7 @@ class Modal extends React.Component {
     super()
     this.state = {
         shrink: false,
-        open: true,
+        open: false,
         email: "Please provide your email address",
     }
     this.handleClickOpen = this.handleClickOpen.bind(this);
@@ -135,6 +170,7 @@ class Modal extends React.Component {
             <Button color="primary" onClick={this.handleClickOpen}>
                Forgot Password
             </Button>
+            
             <Dialog 
                 classes={{root: classes.dialogBox}}
                 PaperProps={{
@@ -145,8 +181,12 @@ class Modal extends React.Component {
                 open={this.state.open} 
                 onClose={this.handleClose} 
                 aria-labelledby="forgot-password"
-            >   
-                <hr style={horizontal}></hr>
+            > 
+            <hr align="left" style={horizontal}></hr>
+                <IconButton aria-label="Close" className={classes.closeButton} onClick={this.handleClose}>
+                   <img src={closeIcon} width="25px" height="25px"/>
+                </IconButton>
+                
                     <Typography variant="h1" className={classes.typo}>Password Reset</Typography>
                     <Typography variant="h2">Forgotten your password? Enter your email address below.</Typography>
                         <FormControl classes={{root: classes.marginRoot}}>
@@ -166,6 +206,7 @@ class Modal extends React.Component {
                                     InputProps={{
                                         classes: {
                                             root: classes.inputProps,
+                                            focused: classes.inputFocused,
                                         }, 
                                         disableUnderline: true,
                                         inputProps: {
@@ -182,8 +223,12 @@ class Modal extends React.Component {
                                     }}
                             />
                         </FormControl>
-                <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
+    
+                <DialogActions classes={{root: classes.dialogActions}}>
+                <Button 
+                    classes={{root: classes.resetButton}}
+                    onClick={this.handleClose} 
+                    color="secondary">
                     Password Reset
                 </Button>
                 </DialogActions>
