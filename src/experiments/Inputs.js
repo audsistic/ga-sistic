@@ -105,7 +105,7 @@ const styles = theme => ({
     paddingLeft: '25px',
     display: 'flex',
     alignItems: 'center',
-  }
+  },
 });
 
 const inputNativeBefore = {
@@ -127,7 +127,7 @@ const types = ["Concert", "Comedy", "Dance", "Others"];
 const MenuProps = {
   PaperProps: {
     style: {
-      width: '657px',
+      border: '1px solid #0080C9',
     },
   },
 };
@@ -278,7 +278,7 @@ class Inputs extends React.Component {
               MenuProps={MenuProps}
             >
               <MenuItem disabled value="">
-                <em>Type</em>
+                Type
               </MenuItem>
               {types.map(type => (
                 <MenuItem key={type} value={type}>

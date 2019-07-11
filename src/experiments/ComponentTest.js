@@ -70,6 +70,9 @@ class ComponentTest extends React.Component {
                 <div className="row-margin">
                   <CheckboxComponent />
                 </div>
+                <div className="row-margin">
+                  <ModalComponent />
+                </div>
           </div>
     </div>
       );

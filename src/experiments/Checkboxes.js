@@ -9,16 +9,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 const styles = theme => ({
-  checkbox: {
+  checkboxOne: {
       width: '17px',
       height: '17px',
       margin: '7px',
       color: '#666666',
       fill: '#9E9E9E',
   },
-  checked: {
+  checkedOne: {
        color: '#0080C9 !important',
-  }
+  },
 });
 
 class Checkboxes extends React.Component {
@@ -48,8 +48,8 @@ class Checkboxes extends React.Component {
                 control={
                 <Checkbox 
                     classes={{
-                        root: classes.checkbox,
-                        checked: classes.checked,
+                        root: classes.checkboxOne,
+                        checked: classes.checkedOne,
                     }}
                     checked={this.state.private} 
                     onChange={this.handleChange} />
