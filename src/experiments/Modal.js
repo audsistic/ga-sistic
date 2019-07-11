@@ -129,7 +129,7 @@ class Modal extends React.Component {
     super()
     this.state = {
         shrink: false,
-        open: true,
+        open: false,
         email: "Please provide your email address",
     }
     this.handleClickOpen = this.handleClickOpen.bind(this);
