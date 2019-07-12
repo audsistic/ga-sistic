@@ -7,9 +7,11 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 // import { Typography } from '@material-ui/core';
 
-import Input from '@material-ui/core/Input';
+// import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+
+var moment = require('moment');
 
 const styles = theme => ({
   marginRoot: {
@@ -79,6 +81,18 @@ const styles = theme => ({
     marginTop: '0px !important',
     marginRight: '7px',
     
+  },
+
+  //for email field
+  inputLabelEmail: {
+    fontSize: '18px',
+    color: '#777777',
+    textDecoration: 'none solid rgb(119, 119, 119)',
+    paddingTop: '10px',
+    paddingLeft: '25px',
+  },
+  inputLabelShrink: {
+    paddingLeft: '0px',
   },
 
   //select 
@@ -157,6 +171,7 @@ class Inputs extends React.Component {
       username: "",
       shrink: false,
       dateShrink: false,
+      emailShrink: false,
       type: "",
     }
 
@@ -164,37 +179,45 @@ class Inputs extends React.Component {
   }
 
     handleChange(event) {
-      console.log("HELLO", event)
+      // console.log("HELLO", event)
       this.setState({type: event.target.value})
     }
   
     shrinkLabel = (event) => {
       const { onFocus } = this.props;
-      this.setState({shrink: true});
-      onFocus && onFocus(event); 
-    };
-
-    shrinkLabelDate = (event) => {
-        const { onFocus } = this.props;
+      if(event.target.id === "username"){
+        this.setState({shrink: true});
+        onFocus && onFocus(event); 
+      } else if(event.target.id === "date") {
         this.setState({dateShrink: true});
         onFocus && onFocus(event); 
+      } else if (event.target.id === "email") {
+        this.setState({emailShrink: true});
+        onFocus && onFocus(event); 
+      }
     };
 
     unShrinkLabel = (event) => {
         const { onBlur } = this.props;
-        if(event.target.value.length === 0) {
-            this.setState({shrink: false})
-        }
-        onBlur && onBlur(event); 
+
+        if(event.target.id === "username"){
+            if(event.target.value.length === 0) {
+                this.setState({shrink: false})
+            }
+          onBlur && onBlur(event); 
+        } else if (event.target.id === "date") {
+            if(event.target.value.length === 0) {
+                this.setState({dateShrink: false})
+            }
+          onBlur && onBlur(event); 
+        } else if (event.target.id === "email") {
+          if(event.target.value.length === 0) {
+              this.setState({emailShrink: false})
+          }
+          onBlur && onBlur(event); 
+          }
     };
 
-    unShrinkLabelDate = (event) => {
-        const { onBlur } = this.props;
-        if(event.target.value.length === 0) {
-            this.setState({dateShrink: false})
-        }
-        onBlur && onBlur(event); 
-    };
 
     render() {
 
@@ -206,11 +229,12 @@ class Inputs extends React.Component {
           <FormControl classes={{root: classes.marginRoot}}>
             
             <TextField
-              id="username-field"
+              id="username"
               label="Username"
               className={classes.textField}
               margin="normal"
               variant="filled"
+              // inputRef={el => this.username = el}
               onFocus={this.shrinkLabel}
               onBlur={this.unShrinkLabel}
               InputProps={{
@@ -245,9 +269,10 @@ class Inputs extends React.Component {
                 margin="normal"
                 variant="filled"
                 defaultValue="DD-MM-YYYY"
+                // inputRef={el => this.date = el}
                 className={classes.textFieldDate}
-                onFocus={this.shrinkLabelDate}
-                onBlur={this.unShrinkLabelDate}
+                onFocus={this.shrinkLabel}
+                onBlur={this.unShrinkLabel}
                 InputProps={{
                     classes: {
                         root: classes.inputPropsDate,
@@ -274,6 +299,36 @@ class Inputs extends React.Component {
                 }}
             />
           </FormControl>
+
+          <FormControl classes={{root: classes.marginRoot}}>
+            
+            <TextField
+              id="email"
+              label="Email"
+              className={classes.textField}
+              margin="normal"
+              variant="filled"
+              onFocus={this.shrinkLabel}
+              onBlur={this.unShrinkLabel}
+              InputProps={{
+                classes: {
+                  root: classes.inputProps,
+                }, 
+                disableUnderline: true,
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.inputLabelEmail,
+                  focused: classes.inputLabelFocused,
+                  shrink: classes.inputLabelShrink,
+                },
+                shrink: this.state.emailShrink,
+              }}
+              
+            />
+          </FormControl>
+
+          
           <FormControl className={classes.marginRootSelect}>
             <Select
               value={this.state.type}
@@ -286,7 +341,7 @@ class Inputs extends React.Component {
                 select: classes.selectInputProps,
               }}
               MenuProps={MenuProps}
-              MenuListProps={{
+              menulistprops={{
                 classes: {
                   root: classes.menulist
                 }

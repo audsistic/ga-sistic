@@ -47,10 +47,6 @@ const styles = theme => ({
     },
 });
 
-const pinStyle = {
-    width: '15px',
-    height: '25px',
-}
 class Cards extends React.Component {
 
   constructor(props) {
