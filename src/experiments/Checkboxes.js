@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import Button from '@material-ui/core/Button';
 import { ReactComponent as BlueCheck } from '../../src/assets/images/icons/check_blue.svg';
+import { ReactComponent as GreyCheck } from '../../src/assets/images/icons/check_grey.svg';
 
 const styles = theme => ({
   checkboxOne: {
@@ -27,12 +28,21 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1),
     borderRadius: '18px',
-    height: '31px',
+    // height: '31px',
     width: '7.5vw',
     maxWidth: '108px',
     minWidth: '102px',
+    padding: '5px',
     border: '1px solid #979797',
   },
+    checkboxTime: {
+  },
+  formlabel: {
+    margin: '0px',
+    height: '23px',
+    width: '77px',
+    color: 'grey',
+  }
 });
 
 const hrDate = {
@@ -40,6 +50,12 @@ const hrDate = {
   height: '1px',
   fill: "#D4D4D4",
 }
+
+const timeDiv = {
+  marginLeft: '10px',
+  color: '#4A4A4A',
+}
+
 
 class Checkboxes extends React.Component {
 
@@ -49,8 +65,10 @@ class Checkboxes extends React.Component {
     this.state = {
         private: true,
         events: [],
+        selected: false,
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
 
     componentDidMount() {
@@ -82,11 +100,14 @@ class Checkboxes extends React.Component {
         this.setState(prevState => ({private: !prevState.private }));
     };
 
+    handleChangeSelect() {
+      this.setState(prevState => ({selected: !prevState.selected }));
+    };
+
     render() {
 
       const { classes } = this.props;
 
-      console.log("events", this.state.events)
       return (
         <div className="checkbox-components">
           
@@ -113,9 +134,25 @@ class Checkboxes extends React.Component {
                   {ev.timings.map( (time, index) => {
                     
                       return (
-                        <Button variant="outlined" color="primary" className={classes.button}>
-                        
-                          <BlueCheck fill="#007AFF" /> {time}
+                        <Button variant="outlined" color="primary" className={classes.button} key={index}>
+                        <FormControlLabel
+                          key={index}
+                          className={classes.formlabel}
+                          control={
+                          <Checkbox 
+                              key={index}
+                              classes={{
+                                  root: classes.checkboxTime,
+                              }}
+                              checked={this.state.selected} 
+                              onChange={this.handleChangeSelect} 
+                              checkedIcon={<BlueCheck style={{width: '23px', height: '23px', fill: '#007AFF'}} key={index} />}
+                              icon={<GreyCheck style={{width: '23px', height: '23px', fill: '#007AFF'}} key={index} />}
+                               />}
+                               label={time}
+                      />
+
+                       {/* <BlueCheck fill="#007AFF" /><span style={timeDiv}>{time}</span> */}
                         </Button>
                         
                       )

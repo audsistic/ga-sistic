@@ -62,7 +62,7 @@ class Cards extends React.Component {
 
       return (
         <div className="button-components">
-          <Card className={classes.card} elevation={0} square={true}>
+          <Card className={classes.card} elevation={3} square={true}>
                 <CardActionArea disableRipple>
                     <CardMedia
                     className={classes.media}
