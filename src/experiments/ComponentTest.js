@@ -13,6 +13,7 @@ import InputComponent from './Inputs';
 import CheckboxComponent from './Checkboxes';
 import ModalComponent from './Modal';
 import CardComponent from './Cards';
+import UploadComponent from './Uploads';
 
 const styles = theme => ({
 });
@@ -23,9 +24,10 @@ class ComponentTest extends React.Component {
   constructor(props) {
     super()
     this.state = {
+      tabs: ["Buttons", "Inputs", "Checkboxes", "Modal", "Cards", "Uploads"],
       username: "",
       shrink: false,
-      activeIndex: 2,
+      activeIndex: 5,
     }
     this.handleTabChange = this.handleTabChange.bind(this);
   }
@@ -53,6 +55,7 @@ class ComponentTest extends React.Component {
                 <MyTab label='Checkboxes' />
                 <MyTab label='Modal' />
                 <MyTab label='Cards' />
+                <MyTab label='Uploads' />
               </VerticalTabs>
 
               { this.state.activeIndex === 0 && <TabContainer><ButtonComponent /></TabContainer> }
@@ -60,6 +63,7 @@ class ComponentTest extends React.Component {
               { this.state.activeIndex === 2 && <TabContainer><CheckboxComponent /></TabContainer> }
               { this.state.activeIndex === 3 && <TabContainer><ModalComponent /></TabContainer> }
               { this.state.activeIndex === 4 && <TabContainer><CardComponent /></TabContainer> }
+              { this.state.activeIndex === 5 && <TabContainer><UploadComponent /></TabContainer> }
             </div>
           </div>
           <div className="mobile d-md-none">

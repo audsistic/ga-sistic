@@ -56,6 +56,12 @@ const timeDiv = {
   color: '#4A4A4A',
 }
 
+const eventDate = {
+  fontSize: '18px',
+  color: '#868686',
+  display: 'flex',
+  alignItems: 'center',
+}
 
 class Checkboxes extends React.Component {
 
@@ -66,6 +72,8 @@ class Checkboxes extends React.Component {
         private: true,
         events: [],
         selected: false,
+        
+
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeSelect = this.handleChangeSelect.bind(this);
@@ -130,7 +138,7 @@ class Checkboxes extends React.Component {
 
               return (
                 <FormGroup row>
-                  <div>{ev.date}</div>
+                  <div style={eventDate}>{ev.date}</div>
                   {ev.timings.map( (time, index) => {
                     
                       return (

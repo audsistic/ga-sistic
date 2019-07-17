@@ -37,6 +37,13 @@ let theme = createMuiTheme({
         default: '#F6F6F6',
       },
     },
+    overrides: {
+      MuiButton: {
+        root: {
+          textTransform: 'none',
+        }
+      }
+    }
   });
   
   theme = responsiveFontSizes(theme);
