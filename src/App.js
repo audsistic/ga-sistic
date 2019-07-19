@@ -45,24 +45,39 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
   },
   container: {
+    width: 'initial',
     [theme.breakpoints.up('md')]: {
-      margin: '0 72px',
+      margin: '185px 72px',
     },
     [theme.breakpoints.down('sm')]: {
-      margin: '0 4px',
+      margin: '127px 4px',
+    },
+  }, 
+  sisticLogo: {
+    width: "93px", 
+    height: "42px",
+    [theme.breakpoints.up('md')]: {
+      marginLeft: '222px', 
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '18px', 
     },
   }
+
 }));
 
-const sisticLogo = {
-  width: "93px", 
-  height: "42px",
-}
 
 const linkStyle = {
-  textDecoration: 'none',
-  color: '#D8D8D8',
+  // textDecoration: 'none',
   fontSize: '14px',
+  marginLeft: '25px',
+}
+
+const linkIconStyle = {
+  width: '30px',
+  height: '30px',
+  border: '1px solid #FFFFFF',
+  borderRadius: '50%',
   marginLeft: '25px',
 }
 
@@ -71,40 +86,71 @@ const menuBar = {
   right: 0,
 }
 
+const linksBar = {
+  display: 'flex',
+  alignItems: 'center',
+  paddingRight: '201px',
+}
+
+const sisticBar = {
+  display: 'flex',
+  flexDirection: 'row',
+  width: '33.6%',
+  paddingRight: '201px',
+}
+
 function App() {
 
   const classes = useStyles();
 
-  console.log("IMAGE", TicketIcon);
-  
   return (
       <div className="main">
 
           <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="fixed">
               <Toolbar 
-                className="row justify-content-end"
+                className="row no-gutters justify-content-end"
                 classes={{
                   root: classes.toolbarTop
                 }}>
                 <div className="desktop d-none d-md-block">
-                  <Link to="/organiser" style={linkStyle}>Organiser</Link>
-                  <Link to="/account" style={linkStyle}>Your Account</Link>
-                  <TicketIcon style={linkStyle} />
+                  <div style={linksBar}>
+                      <Link to="/organiser" style={
+                      Object.assign({
+                        color: '#D8D8D8',
+                        },
+                      linkStyle)}>Organiser</Link>
+                    <Link to="/account" style={
+                      Object.assign({
+                        color: '#D8D8D8',
+                        },
+                      linkStyle)}>Your Account</Link>
+                    <TicketIcon style={linkIconStyle} fill="#ffffff" />
+                  </div>
                 </div>
               </Toolbar>
               <Toolbar
                 classes={{
                   root: classes.toolbarBottom
                 }}>
-                  <div className="desktop d-none d-md-block" style={Object.assign({ marginLeft: '222px', }, sisticLogo)}>
-                    <img src={require("../src/assets/images/icons/sistic_logo.png")} alt="" width="100%" height="100%"/>
+                  <div style={{ width: '66.3%'}}>
+                    
+                      <div className={classes.sisticLogo}>
+                        <img src={require("../src/assets/images/icons/sistic_logo.png")} alt="" width="100%" height="100%"/>
+                      </div>
                   </div>
-
-                  <div className="mobile d-md-none" style={Object.assign({ marginLeft: '18px', }, sisticLogo)}>
-                    <img src={require("../src/assets/images/icons/sistic_logo.png")} alt="" width="100%" height="100%"/>
+              
+                  <div className="row no-gutters justify-content-end desktop d-none d-md-flex" style={sisticBar}>
+                    <Link to="/home" style={
+                        Object.assign({color: '#747474',},
+                        linkStyle)
+                        }>Dashboard</Link>
+                    <Link to="/plans" style={
+                        Object.assign({color: '#747474',},
+                        linkStyle)
+                        }>Price Plans</Link>
                   </div>
-
+                  
                   <div className="mobile d-md-none" style={menuBar}>
                     <IconButton edge="end" className={classes.menuButton} aria-label="Menu">
                       <MenuIcon />

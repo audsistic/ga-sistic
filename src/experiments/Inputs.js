@@ -10,6 +10,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 
 var moment = require('moment');
 
@@ -395,6 +397,22 @@ class Inputs extends React.Component {
               }}
               
             />
+          </FormControl>
+
+          <FormControl classes={{root: classes.marginRoot}}>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search with venue address, venue name"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'Search' }}
+            />
+          </div>
           </FormControl>
         </div>
       );

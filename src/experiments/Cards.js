@@ -85,38 +85,38 @@ class Cards extends React.Component {
   }
   
     render() {
-      console.log(this.state.events);
+      console.log("cards", this.state.events);
       const { classes } = this.props;
 
       return (
         <div className="button-components">
-          <Card className={classes.card} elevation={3} square={true}>
+
+              <Card className={classes.card} elevation={3} square={true}>
                 <CardActionArea disableRipple>
-                    <CardMedia
-                    className={classes.media}
-                    height="168px"
-                    component="img"
-                    image={require('../../src/assets/images/photographs/nation-gallery.png')}
-                    title=""
-                    />
+                <CardMedia className={classes.media}
+                      height="168px" 
+                      component="img" 
+                      image={require('../../src/assets/images/photographs/nation-gallery.png')}
+                      title=""
+                       />
                     <CardContent classes={{root: classes.content}}>
                         <Typography gutterBottom component="div" classes={{
-                            root: classes.dateTime
-                        }}>
+                          root: classes.dateTime
+                          }}>
                             {moment().format('llll')}
-                        </Typography>
-                        <Typography gutterBottom classes={{
-                            root: classes.header
+                          </Typography>
+-                        <Typography gutterBottom classes={{
+                        root: classes.header
                         }}>
-                            Professor Edwin Thumboo
-                        </Typography>
-                        <Typography component="p" classes={{root: classes.location}}>
-                            <img style={{ marginRight: '7px',}} src={require('../../src/assets/images/icons/pin.svg')} width="15px" height="25px" />
-                            National Gallery
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
+                        Professor Edwin Thumboo
+-                        </Typography>
+-                        <Typography component="p" classes={{root: classes.location}}>
+-                            <img style={{ marginRight: '7px',}} src={require('../../src/assets/images/icons/pin.svg')} width="15px" height="25px" />
+-                            National Gallery
+-                        </Typography>
+-                    </CardContent>
+-                </CardActionArea>
+-            </Card>
         </div>
       );
     }

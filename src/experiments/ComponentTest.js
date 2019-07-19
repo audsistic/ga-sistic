@@ -27,7 +27,7 @@ class ComponentTest extends React.Component {
       tabs: ["Buttons", "Inputs", "Checkboxes", "Modal", "Cards", "Uploads"],
       username: "",
       shrink: false,
-      activeIndex: 5,
+      activeIndex: 1,
     }
     this.handleTabChange = this.handleTabChange.bind(this);
   }
