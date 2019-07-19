@@ -56,8 +56,36 @@ class Cards extends React.Component {
     }
   }
 
+  componentDidMount() {
+    let events = [
+      {
+        "image": "../../src/assets/images/photographs/nation-gallery.png",
+        "date": "13 Mar 2019 9PM",
+        "speaker": "Professor Edwin Thumboo"
+      },
+      {
+        "image": "../../src/assets/images/photographs/nation-gallery.png",
+        "date": "14 Mar 2019 12PM",
+        "speaker": "Mr Orange Pineapple"
+      },
+      {
+        "image": "../../src/assets/images/photographs/nation-gallery.png",
+        "date": "15 Mar 2019 8PM",
+        "speaker": "Mdm Rosa Penaltra"
+      }
+    ];
+    
+    let eventArray = [];
+    
+    for(var i=0; i<events.length; i++) {
+      eventArray.push(events[i])
+    }
+    
+    this.setState({events: eventArray})
+  }
+  
     render() {
-
+      console.log(this.state.events);
       const { classes } = this.props;
 
       return (

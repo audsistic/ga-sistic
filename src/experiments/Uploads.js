@@ -8,7 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 import AddIcon from '@material-ui/icons/AddCircleOutline';
-const imageUploadIcon = require('../../src/assets/images/icons/image_icon.svg');
+import { ReactComponent as ImageUploadIcon } from '../../src/assets/images/icons/image_icon.svg';
+
 
 const styles = theme => ({
     button: {
@@ -53,14 +54,11 @@ class Uploads extends React.Component {
       return (
         <div className="upload-components">
           <div style={uploadSpace}>
-            <div style={{
-                backgroundImage: "url("+`${imageUploadIcon}`+")",
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                height: '53px',
-                width: "53px",
+            <ImageUploadIcon style={{
                 marginBottom: '10px',
-                }}></div>
+                height: '53px',
+                width: '53px',
+            }} />
                 <div style={resDiv}>450 x 337px</div>
                 <div>
                     <input

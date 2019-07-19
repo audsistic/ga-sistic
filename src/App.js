@@ -16,6 +16,8 @@ import Home from './Home';
 import NoMatch from './errors/ErrorPage';
 // import Hidden from '@material-ui/core/Hidden';
 
+import { ReactComponent as TicketIcon } from '../src/assets/images/icons/ticket_icon_outline.svg';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -61,6 +63,7 @@ const linkStyle = {
   textDecoration: 'none',
   color: '#D8D8D8',
   fontSize: '14px',
+  marginLeft: '25px',
 }
 
 const menuBar = {
@@ -72,6 +75,8 @@ function App() {
 
   const classes = useStyles();
 
+  console.log("IMAGE", TicketIcon);
+  
   return (
       <div className="main">
 
@@ -84,7 +89,8 @@ function App() {
                 }}>
                 <div className="desktop d-none d-md-block">
                   <Link to="/organiser" style={linkStyle}>Organiser</Link>
-                  <Link to="/organiser" style={linkStyle}>Your Account</Link>
+                  <Link to="/account" style={linkStyle}>Your Account</Link>
+                  <TicketIcon style={linkStyle} />
                 </div>
               </Toolbar>
               <Toolbar

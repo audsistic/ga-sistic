@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 // import { Typography } from '@material-ui/core';
 
-// import Input from '@material-ui/core/Input';
+import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -365,6 +365,36 @@ class Inputs extends React.Component {
                     </MenuItem>
                   ))}
                 </Select>
+          </FormControl>
+
+
+          <FormControl classes={{root: classes.marginRoot}}>
+            
+            <TextField
+              id="synopsis"
+              label="Synopsis"
+              className={classes.textField}
+              margin="normal"
+              variant="filled"
+              onFocus={this.shrinkLabel}
+              onBlur={this.unShrinkLabel}
+              InputProps={{
+                classes: {
+                  root: classes.inputProps,
+                }, 
+                disableUnderline: true,
+                multiline: true,
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.inputLabelEmail,
+                  focused: classes.inputLabelFocused,
+                  shrink: classes.inputLabelShrink,
+                },
+                shrink: this.state.emailShrink,
+              }}
+              
+            />
           </FormControl>
         </div>
       );
