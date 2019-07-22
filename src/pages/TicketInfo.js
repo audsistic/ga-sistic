@@ -7,7 +7,6 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import InputBase from '@material-ui/core/InputBase';
 
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -117,42 +116,29 @@ const styles = theme => ({
   },
 
   //checkbox
-  checkboxOne: {
-    width: '17px',
-    height: '17px',
-    margin: '7px',
-    color: '#666666',
-    fill: '#9E9E9E',
-},
-checkedOne: {
-    color: '#0080C9 !important',
-},
-  //multiline
-  inputPropsMulti: {
-    background: '#FFFFFF',
-    height: '382px',
-    transform: 'unset',
-    borderTopLeftRadius: '0px',
-    borderTopRightRadius: '0px',
-    '&:hover': {
-      background: '#FFFFFF',
-      border: '1px solid #0080C9',
+    checkboxOne: {
+        width: '17px',
+        height: '17px',
+        margin: '7px',
+        color: '#666666',
+        fill: '#9E9E9E',
     },
-  },
-  //search
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  searchRoot: {
-    height: '71px',
-    width: '654px',
-  }
+    checkedOne: {
+        color: '#0080C9 !important',
+    },
+
+    //email field
+    inputLabelVenue: {
+        fontSize: '18px',
+        color: '#777777',
+        textDecoration: 'none solid rgb(119, 119, 119)',
+        paddingTop: '10px',
+        paddingLeft: '25px',
+    },
+    inputLabelShrink: {
+        paddingLeft: '0px',
+    },
+
 });
 
 const inputNativeBefore = {
@@ -169,12 +155,19 @@ const inputNativeAfter = {
     paddingTop: '32px',
 }
 
+const welcomeHeader = {
+    fontSize: '17px',
+    lineHeight: 1.3529,
+    color: '#000000',
+    textDecoration: 'none solid rgb(0, 0, 0)',
+}
+
 const gradientDiv = {
     background: 'linear-gradient(to right, #0080C9, #C86DD7)',
     height: '5px',
     width: '100px',
-    margin: '19px 0px',
 }
+
 
 
 const types = ["Concert", "Comedy", "Dance", "Others"];
@@ -205,15 +198,20 @@ class TicketInfo extends React.Component {
       eventName: "Tell the patrons who is organising the event",
       type: "",
       private: true,
+      venueName: "",
+      venueAddress: "",
     }
 
     this.shrinkLabel = this.shrinkLabel.bind(this);
     this.unShrinkLabel = this.unShrinkLabel.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleTypeChange = this.handleTypeChange.bind(this);
     this.onOrganiserChange = this.onOrganiserChange.bind(this);
     this.onEventNameChange = this.onEventNameChange.bind(this);
     this.handleCheckChange = this.handleCheckChange.bind(this);
+    this.onVenueNameChange = this.onVenueNameChange.bind(this);
+    this.onVenueAddressChange = this.onVenueAddressChange.bind(this);
   }
+
 
     shrinkLabel = (event) => {
       const { onFocus } = this.props;
@@ -250,7 +248,7 @@ class TicketInfo extends React.Component {
         this.setState({eventName: event.target.value})
     };
 
-    handleChange(event) {
+    handleTypeChange(event) {
         // console.log("HELLO", event)
         this.setState({type: event.target.value})
     };
@@ -259,190 +257,222 @@ class TicketInfo extends React.Component {
         this.setState(prevState => ({private: !prevState.private }));
     };
 
+    onVenueNameChange(event) {
+        this.setState({venueName: event.target.value})
+    };
+
+    onVenueAddressChange(event) {
+        this.setState({venueAddress: event.target.value})
+    }
+
+    handlePlaceChanged(){
+        const place = this.autocomplete.getPlace();
+        this.props.onPlaceLoaded(place);
+    }
+
     render() {
 
       const { classes } = this.props;
 
       return (
-        <div className="input-components">
-        <div>Welcome, John Doe</div>
-        <div style={gradientDiv}></div>
-        <Typography variant="h1" gutterBottom>Basic Information</Typography>
-        <Typography variant="h4" 
-                    classes={{
-                        root: classes.typoRoot,
-                    }}>
-            Tell us your event detail
-        </Typography>
+        <div className="ticket-info">
+            <div style={welcomeHeader}>Welcome, John Doe</div>
+            <div style={
+                Object.assign({
+                    margin: '19px 0px 23px',
+                }, gradientDiv)}>
+            </div>
+            <Typography variant="h1" gutterBottom>Basic Information</Typography>
+            <Typography variant="h4" classes={{ root: classes.typoRoot, }}>
+                Tell us your event detail
+            </Typography>
 
-        <FormControl classes={{root: classes.marginRoot}}>
-              <TextField
-                id="organiser"
-                label="Organiser"
-                type="text"
-                variant="filled"
-                className={classes.textFieldDate}
-                value={this.state.organiser}
-                // defaultValue={this.state.orgMessage}
-                // inputRef={el => this.date = el}
-                onChange={this.onOrganiserChange}
-                onFocus={this.shrinkLabel}
-                onBlur={this.unShrinkLabel}
-                InputProps={{
-                    classes: {
-                        root: classes.inputPropsDate,
-                    }, 
-                    disableUnderline: true,
-                    inputProps: {
-                        style: this.state.orgShrink ? inputNativeAfter : inputNativeBefore,
-                    }
-    
-                }}
-                InputLabelProps={{
-                    classes: {
-                        root: classes.inputLabelDate,
-                        focused: classes.inputLabelFocused,
-                    },
-                    shrink: this.state.orgShrink,
-                }}
-            />
-          </FormControl>
-
-          <FormControl classes={{root: classes.marginRoot}}>
-              <TextField
-                id="eventName"
-                label="Event Name"
-                type="text"
-                variant="filled"
-                className={classes.textFieldDate}
-                value={this.state.eventName}
-                // defaultValue={this.state.orgMessage}
-                // inputRef={el => this.date = el}
-                onChange={this.onEventNameChange}
-                onFocus={this.shrinkLabel}
-                onBlur={this.unShrinkLabel}
-                InputProps={{
-                    classes: {
-                        root: classes.inputPropsDate,
-                    }, 
-                    disableUnderline: true,
-                    inputProps: {
-                        style: this.state.eventNameShrink ? inputNativeAfter : inputNativeBefore,
-                    }
-    
-                }}
-                InputLabelProps={{
-                    classes: {
-                        root: classes.inputLabelDate,
-                        focused: classes.inputLabelFocused,
-                    },
-                    shrink: this.state.eventNameShrink,
-                }}
-            />
-          </FormControl>
-
-          <FormControl className={classes.marginRoot}>
-            <Select
-              value={this.state.type}
-              onChange={this.handleChange}
-              name="type"
-              displayEmpty
-              disableUnderline={true}
-              classes={{
-                root: classes.select,
-                select: classes.selectInputProps,
-              }}
-              MenuProps={MenuProps}
-              menulistprops={{
-                classes: {
-                  root: classes.menulist
-                }
-              }}
-            >
-                  <MenuItem 
-                    value="" 
-                    classes={{
-                      root: classes.selectedItem
-                    }}>
-                    Type
-                  </MenuItem>
-                  {types.map(type => (
-                    <MenuItem 
-                      key={type} 
-                      value={type} 
-                      classes={{
-                        root: classes.selectedItem,
-                      }}>
-                      {type}
-                    </MenuItem>
-                  ))}
-                </Select>
-          </FormControl>
+            <FormControl classes={{root: classes.marginRoot}}>
+                <TextField
+                    id="organiser"
+                    label="Organiser"
+                    type="text"
+                    variant="filled"
+                    className={classes.textFieldDate}
+                    value={this.state.organiser}
+                    // defaultValue={this.state.orgMessage}
+                    // inputRef={el => this.date = el}
+                    onChange={this.onOrganiserChange}
+                    onFocus={this.shrinkLabel}
+                    onBlur={this.unShrinkLabel}
+                    InputProps={{
+                        classes: {
+                            root: classes.inputPropsDate,
+                        }, 
+                        disableUnderline: true,
+                        inputProps: {
+                            style: this.state.orgShrink ? inputNativeAfter : inputNativeBefore,
+                        }
         
-          <FormGroup row>
-            <FormControlLabel
-                control={
-                <Checkbox 
-                    classes={{
-                        root: classes.checkboxOne,
-                        checked: classes.checkedOne,
                     }}
-                    checked={this.state.private} 
-                    onChange={this.handleCheckChange} />
-                }
-                label="Check if this is a private event"
-            />
-        </FormGroup>
+                    InputLabelProps={{
+                        classes: {
+                            root: classes.inputLabelDate,
+                            focused: classes.inputLabelFocused,
+                        },
+                        shrink: this.state.orgShrink,
+                    }}
+                />
+            </FormControl>
 
-          <FormControl classes={{root: classes.marginRoot}}>
-            
-            <TextField
-              id="synopsis"
-              label="Synopsis"
-              className={classes.textField}
-              margin="normal"
-              variant="filled"
-              onFocus={this.shrinkLabel}
-              onBlur={this.unShrinkLabel}
-              InputProps={{
-                classes: {
-                  root: classes.inputPropsMulti,
-                }, 
-                disableUnderline: true,
-                multiline: true,
-                rows: 5,
-              }}
-              InputLabelProps={{
-                classes: {
-                  root: classes.inputLabelEmail,
-                  focused: classes.inputLabelFocused,
-                  shrink: classes.inputLabelShrink,
-                },
-                shrink: this.state.emailShrink,
-              }}
-              
-            />
-          </FormControl>
+            <FormControl classes={{root: classes.marginRoot}}>
+                <TextField
+                    id="eventName"
+                    label="Event Name"
+                    type="text"
+                    variant="filled"
+                    className={classes.textFieldDate}
+                    value={this.state.eventName}
+                    // defaultValue={this.state.orgMessage}
+                    // inputRef={el => this.date = el}
+                    onChange={this.onEventNameChange}
+                    onFocus={this.shrinkLabel}
+                    onBlur={this.unShrinkLabel}
+                    InputProps={{
+                        classes: {
+                            root: classes.inputPropsDate,
+                        }, 
+                        disableUnderline: true,
+                        inputProps: {
+                            style: this.state.eventNameShrink ? inputNativeAfter : inputNativeBefore,
+                        }
+        
+                    }}
+                    InputLabelProps={{
+                        classes: {
+                            root: classes.inputLabelDate,
+                            focused: classes.inputLabelFocused,
+                        },
+                        shrink: this.state.eventNameShrink,
+                    }}
+                />
+            </FormControl>
 
-          <FormControl classes={{root: classes.marginRoot}}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search with venue address, venue name"
+            <FormControl className={classes.marginRoot}>
+                <Select
+                value={this.state.type}
+                onChange={this.handleTypeChange}
+                name="type"
+                displayEmpty
+                disableUnderline={true}
                 classes={{
-                  root: classes.textField,
-                  input: classes.inputInput,
+                    root: classes.select,
+                    select: classes.selectInputProps,
                 }}
-                
-                inputProps={{ 
-                  'aria-label': 'Search',
-                  classes: {
-                    root: classes.searchRoot
-                  }
-                 }}
-              />
-          </FormControl>
+                MenuProps={MenuProps}
+                menulistprops={{
+                    classes: {
+                    root: classes.menulist
+                    }
+                }}
+                >
+                    <MenuItem 
+                        value="" 
+                        classes={{
+                        root: classes.selectedItem
+                        }}>
+                        Type
+                    </MenuItem>
+                    {types.map(type => (
+                        <MenuItem 
+                        key={type} 
+                        value={type} 
+                        classes={{
+                            root: classes.selectedItem,
+                        }}>
+                        {type}
+                        </MenuItem>
+                    ))}
+                    </Select>
+            </FormControl>
+            
+            <FormGroup row>
+                <FormControlLabel
+                    control={
+                    <Checkbox 
+                        classes={{
+                            root: classes.checkboxOne,
+                            checked: classes.checkedOne,
+                        }}
+                        checked={this.state.private} 
+                        onChange={this.handleCheckChange} />
+                    }
+                    label="Check if this is a private event"
+                />
+            </FormGroup>
+            <div style={
+                Object.assign({
+                    margin: '51px 0px 22px',
+                }, gradientDiv)}>
+            </div>
+            <Typography variant="h1" gutterBottom>Where will your event be held</Typography>
+            <Typography variant="h4" classes={{ root: classes.typoRoot, }}>
+                Help your patron to find their way to your event
+            </Typography>
+
+                <FormControl classes={{root: classes.marginRoot}}>
+                    <TextField
+                    id="venueName"
+                    label="Venue Name (e.g. The Star Performing Arts Centre)"
+                    className={classes.textField}
+                    type="search"
+                    variant="filled"
+                    value={this.state.venueName}
+                    onChange={this.onVenueNameChange}
+                    onFocus={this.shrinkLabel}
+                    onBlur={this.unShrinkLabel}
+                    InputProps={{
+                        classes: {
+                        root: classes.inputProps,
+                        }, 
+                        disableUnderline: true,
+                    }}
+                    InputLabelProps={{
+                        classes: {
+                        root: classes.inputLabelVenue,
+                        focused: classes.inputLabelFocused,
+                        shrink: classes.inputLabelShrink,
+                        },
+                        shrink: this.state.venueShrink,
+                    }}
+                    
+                    />
+            </FormControl>
+
+            <FormControl classes={{root: classes.marginRoot}}>
+                    <TextField
+                    id="venueAddress"
+                    label="Venue Address (eg. 10 Eunos Road 8 #03-04...)"
+                    className={classes.textField}
+                    type="search"
+                    variant="filled"
+                    value={this.state.venueAddress}
+                    onChange={this.onVenueAddressChange}
+                    onFocus={this.shrinkLabel}
+                    onBlur={this.unShrinkLabel}
+                    InputProps={{
+                        classes: {
+                        root: classes.inputProps,
+                        }, 
+                        disableUnderline: true,
+                    }}
+                    InputLabelProps={{
+                        classes: {
+                        root: classes.inputLabelVenue,
+                        focused: classes.inputLabelFocused,
+                        shrink: classes.inputLabelShrink,
+                        },
+                        shrink: this.state.venueShrink,
+                    }}
+                    
+                    />
+            </FormControl>
+            
         </div>
       );
     }

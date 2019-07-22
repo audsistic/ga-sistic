@@ -5,7 +5,6 @@ import { Switch, Route, Link } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -37,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       minHeight: '55px',
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       minHeight: '16px',
     },
   },
@@ -46,15 +45,6 @@ const useStyles = makeStyles(theme => ({
     minHeight: '81px',
     position: 'relative',
   },
-  container: {
-    width: 'initial',
-    [theme.breakpoints.up('md')]: {
-      margin: '185px 72px',
-    },
-    [theme.breakpoints.down('sm')]: {
-      margin: '127px 4px',
-    },
-  }, 
   sisticLogo: {
     width: "93px", 
     height: "42px",
@@ -162,10 +152,7 @@ function App() {
             </AppBar>
           </div>
           <div>
-            <Container 
-              classes={{
-                root: classes.container
-              }}>
+            <div>
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/components" component={CompTest} />
@@ -173,7 +160,7 @@ function App() {
                 {/* when none of the above match, <NoMatch> will be rendered */}
                 <Route component={NoMatch} />
               </Switch>
-            </Container>
+            </div>
           </div>
       </div>
   );
