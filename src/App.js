@@ -13,6 +13,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import CompTest from './experiments/ComponentTest';
 import Home from './Home';
+import SummaryComponent from './pages/SummaryPage';
+
 import NoMatch from './errors/ErrorPage';
 // import Hidden from '@material-ui/core/Hidden';
 
@@ -167,7 +169,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/components" component={CompTest} />
-
+                <Route path="/add" component={SummaryComponent} />
                 {/* when none of the above match, <NoMatch> will be rendered */}
                 <Route component={NoMatch} />
               </Switch>

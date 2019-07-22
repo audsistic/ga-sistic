@@ -13,6 +13,12 @@ let theme = createMuiTheme({
         textDecoration: 'none solid rgb(0, 0, 0)',
         lineHeight: 1.36,
       },
+      h4: {
+        fontSize: '16px',
+        textDecoration: 'none solid rgb(141, 141, 141)',
+        color: '#8D8D8D',
+        lineHeight: 1.375,
+      },
       overline: {
         fontSize: '14px',
         textDecoration: 'none solid rgb(0, 0, 0)',
@@ -39,6 +45,11 @@ let theme = createMuiTheme({
     },
     overrides: {
       MuiButton: {
+        root: {
+          textTransform: 'none',
+        }
+      },
+      MuiTab: {
         root: {
           textTransform: 'none',
         }
