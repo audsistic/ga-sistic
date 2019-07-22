@@ -11,7 +11,7 @@ import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
+import { ReactComponent as SearchIcon } from '../../src/assets/images/icons/search.svg';
 
 var moment = require('moment');
 
@@ -31,6 +31,7 @@ const styles = theme => ({
   textField: {
     border: '1px solid #E7E7E7',
     boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
+    background: '#FFFFFF',
   },
   textFieldDate: {
     border: '1px solid #E7E7E7',
@@ -132,6 +133,33 @@ const styles = theme => ({
   },
   menulist: {
     color: '#4D4D4D',
+  },
+
+  //multiline
+  inputPropsMulti: {
+    background: '#FFFFFF',
+    height: '382px',
+    transform: 'unset',
+    borderTopLeftRadius: '0px',
+    borderTopRightRadius: '0px',
+    '&:hover': {
+      background: '#FFFFFF',
+      border: '1px solid #0080C9',
+    },
+  },
+  //search
+  searchIcon: {
+    width: theme.spacing(7),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchRoot: {
+    height: '71px',
+    width: '654px',
   }
 });
 
@@ -382,10 +410,11 @@ class Inputs extends React.Component {
               onBlur={this.unShrinkLabel}
               InputProps={{
                 classes: {
-                  root: classes.inputProps,
+                  root: classes.inputPropsMulti,
                 }, 
                 disableUnderline: true,
                 multiline: true,
+                rows: 5,
               }}
               InputLabelProps={{
                 classes: {
@@ -400,19 +429,23 @@ class Inputs extends React.Component {
           </FormControl>
 
           <FormControl classes={{root: classes.marginRoot}}>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search with venue address, venue name"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'Search' }}
-            />
-          </div>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search with venue address, venue name"
+                classes={{
+                  root: classes.textField,
+                  input: classes.inputInput,
+                }}
+                
+                inputProps={{ 
+                  'aria-label': 'Search',
+                  classes: {
+                    root: classes.searchRoot
+                  }
+                 }}
+              />
           </FormControl>
         </div>
       );

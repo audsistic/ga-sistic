@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="19px" viewBox="0 0 14 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>icon/search</title>
+    <desc>Created with Sketch.</desc>
+    <g id="------------" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="search-bar-textfield" transform="translate(-13.000000, -27.000000)" stroke="#979797">
+            <g id="icon/search" transform="translate(12.000000, 26.000000)">
+                <g id="Group" transform="translate(9.695227, 11.284548) rotate(-23.000000) translate(-9.695227, -11.284548) translate(3.195227, 1.784548)">
+                    <ellipse id="Oval" fill="#FFFFFF" cx="6.67157288" cy="5.83452378" rx="6" ry="5.5"></ellipse>
+                    <path d="M6.77512627,11.5233585 L6.77512627,18.0831242" id="Line-2" stroke-linecap="square"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
