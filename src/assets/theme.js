@@ -3,7 +3,7 @@ import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
 let theme = createMuiTheme({
     typography: {
-      fontFamily: "OpenSans",
+      fontFamily: "Open Sans",
       h1: {
         fontSize: '34px',
         textDecoration: 'none solid rgb(0, 0, 0)',
@@ -18,6 +18,12 @@ let theme = createMuiTheme({
         textDecoration: 'none solid rgb(141, 141, 141)',
         color: '#8D8D8D',
         lineHeight: 1.375,
+      },
+      h5: {
+        fontSize: '14px',
+        textDecoration: 'none solid rgb(0, 0, 0)',
+        color: '#999999',
+        lineHeight: 1.357,
       },
       overline: {
         fontSize: '14px',

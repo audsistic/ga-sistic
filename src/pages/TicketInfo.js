@@ -65,14 +65,14 @@ const styles = theme => ({
   },
   inputLabel: {
     fontSize: '18px',
-    color: '#777777',
+    color: '#4d4d4d',
     textDecoration: 'none solid rgb(119, 119, 119)',
     paddingTop: '10px',
     paddingLeft: '88.17px',
   },
   inputLabelDate: {
     fontSize: '16px',
-    color: '#777777',
+    color: '#4d4d4d',
     textDecoration: 'none solid rgb(119, 119, 119)',
   },
   inputLabelFocused: {
@@ -116,6 +116,10 @@ const styles = theme => ({
   },
 
   //checkbox
+    checkboxLabel: {
+        fontFamily: 'Open Sans-Bold',
+        fontSize: '12px',
+    },
     checkboxOne: {
         width: '17px',
         height: '17px',
@@ -127,13 +131,19 @@ const styles = theme => ({
         color: '#0080C9 !important',
     },
 
-    //email field
+    //venue fields
     inputLabelVenue: {
         fontSize: '18px',
         color: '#777777',
         textDecoration: 'none solid rgb(119, 119, 119)',
-        paddingTop: '10px',
-        paddingLeft: '25px',
+        padding: '10px 25px 0 25px',
+
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '16px',
+            color: '#4d4d4d',
+            padding: '5px 0px 0px 14px',
+            maxWidth: '318px',
+        }
     },
     inputLabelShrink: {
         paddingLeft: '0px',
@@ -168,8 +178,6 @@ const gradientDiv = {
     width: '100px',
 }
 
-
-
 const types = ["Concert", "Comedy", "Dance", "Others"];
 
 const MenuProps = {
@@ -193,11 +201,16 @@ class TicketInfo extends React.Component {
     this.state = {
       orgShrink: false,
       eventNameShrink: false,
+
+      //form labels
+      venueAddressLabel: "Venue Address (eg. 10 Eunos Road 8 #03-04...)",
+      venueNameLabel: "Venue Name (e.g. The Star Performing Arts Centre)",
+
       //form info
       organiser: "Tell the patrons who is organising the event",
       eventName: "Tell the patrons who is organising the event",
       type: "",
-      private: true,
+      private: false,
       venueName: "",
       venueAddress: "",
     }
@@ -218,10 +231,16 @@ class TicketInfo extends React.Component {
       if(event.target.id === "organiser"){
         this.setState({orgShrink: true, organiser: "",});
         onFocus && onFocus(event); 
-      } else if(event.target.id === "eventName") {
+      } else if (event.target.id === "eventName") {
         this.setState({eventNameShrink: true, eventName: "",});
         onFocus && onFocus(event); 
-      } 
+      } else if (event.target.id === "venueName") {
+        this.setState({venueNameLabel: "Venue Name",});
+        onFocus && onFocus(event);
+      } else if (event.target.id === "venueAddress") {
+        this.setState({venueAddressLabel: "Venue Address",});
+        onFocus && onFocus(event);
+      }
     };
 
     unShrinkLabel = (event) => {
@@ -237,32 +256,47 @@ class TicketInfo extends React.Component {
                 this.setState({eventNameShrink: false, eventName: "Tell the patrons who is organising the event",})
             }
           onBlur && onBlur(event); 
-        } 
+        } else if (event.target.id === "venueName") {
+            if(event.target.value.length === 0) {
+                this.setState({venueNameLabel: "Venue Name (e.g. The Star Performing Arts Centre)",})
+            }
+          onBlur && onBlur(event);
+        } else if (event.target.id === "venueAddress") {
+            if(event.target.value.length === 0) {
+                this.setState({venueAddressLabel: "Venue Address (eg. 10 Eunos Road 8 #03-04...)",})
+            }
+          onBlur && onBlur(event);
+        }
     };
 
     onOrganiserChange(event) {
-        this.setState({organiser: event.target.value})
+        this.setState({organiser: event.target.value});
+        this.props.onOrganiserChange(event);
     };
 
     onEventNameChange(event) {
-        this.setState({eventName: event.target.value})
+        this.setState({eventName: event.target.value});
+        this.props.onEventNameChange(event);
     };
 
     handleTypeChange(event) {
-        // console.log("HELLO", event)
-        this.setState({type: event.target.value})
+        this.setState({type: event.target.value});
+        this.props.handleTypeChange(event);
     };
 
     handleCheckChange() {
         this.setState(prevState => ({private: !prevState.private }));
+        this.props.handleCheckChange();
     };
 
     onVenueNameChange(event) {
-        this.setState({venueName: event.target.value})
+        this.setState({venueName: event.target.value});
+        this.props.onVenueNameChange(event);
     };
 
     onVenueAddressChange(event) {
-        this.setState({venueAddress: event.target.value})
+        this.setState({venueAddress: event.target.value});
+        this.props.onVenueAddressChange(event);
     }
 
     handlePlaceChanged(){
@@ -273,7 +307,6 @@ class TicketInfo extends React.Component {
     render() {
 
       const { classes } = this.props;
-
       return (
         <div className="ticket-info">
             <div style={welcomeHeader}>Welcome, John Doe</div>
@@ -393,6 +426,10 @@ class TicketInfo extends React.Component {
             
             <FormGroup row>
                 <FormControlLabel
+                    classes={{
+                        root: classes.marginRoot,
+                        label : classes.checkboxLabel,
+                    }}
                     control={
                     <Checkbox 
                         classes={{
@@ -418,7 +455,7 @@ class TicketInfo extends React.Component {
                 <FormControl classes={{root: classes.marginRoot}}>
                     <TextField
                     id="venueName"
-                    label="Venue Name (e.g. The Star Performing Arts Centre)"
+                    label={this.state.venueNameLabel}
                     className={classes.textField}
                     type="search"
                     variant="filled"
@@ -445,9 +482,9 @@ class TicketInfo extends React.Component {
             </FormControl>
 
             <FormControl classes={{root: classes.marginRoot}}>
-                    <TextField
+                <TextField
                     id="venueAddress"
-                    label="Venue Address (eg. 10 Eunos Road 8 #03-04...)"
+                    label={this.state.venueAddressLabel}
                     className={classes.textField}
                     type="search"
                     variant="filled"
@@ -466,8 +503,7 @@ class TicketInfo extends React.Component {
                         root: classes.inputLabelVenue,
                         focused: classes.inputLabelFocused,
                         shrink: classes.inputLabelShrink,
-                        },
-                        shrink: this.state.venueShrink,
+                        }
                     }}
                     
                     />

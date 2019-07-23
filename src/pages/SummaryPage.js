@@ -5,16 +5,19 @@ import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
 import Container from '@material-ui/core/Container';
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 
 import TicketInfoComponent from './TicketInfo';
+import EventScheduleComponent from './EventSchedule';
 
 import { ReactComponent as TabImageOne } from '../../src/assets/images/icons/tabs/tab_1.svg';
 import { ReactComponent as TabImageTwo } from '../../src/assets/images/icons/tabs/tab_2.svg';
 import { ReactComponent as TabImageThree } from '../../src/assets/images/icons/tabs/tab_3.svg';
+import { ReactComponent as TabImageFour } from '../../src/assets/images/icons/tabs/tab_4.svg';
+import { ReactComponent as TabImageFive } from '../../src/assets/images/icons/tabs/tab_5.svg';
 
 const styles = theme => ({
   container: {
@@ -81,6 +84,8 @@ const mobileTab = {
   position: 'fixed',
   zIndex: '20',
   bottom: '50px',
+  justifyContent: 'space-evenly',
+  alignItems: 'center',
 }
 class SummaryPage extends React.Component {
 
@@ -90,13 +95,52 @@ class SummaryPage extends React.Component {
     this.state = {
       username: "",
       shrink: false,
-      activeIndex: 0,
+      activeIndex: 1,
+
+      //ticket info
+      organiser: "",
+      eventName: "",
+      type: "",
+      private: false,
+      venueName: "",
+      venueAddress: "",
     }
     this.handleTabChange = this.handleTabChange.bind(this);
+    this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.onOrganiserChange = this.onOrganiserChange.bind(this);
+    this.onEventNameChange = this.onEventNameChange.bind(this);
+    this.handleCheckChange = this.handleCheckChange.bind(this);
+    this.onVenueNameChange = this.onVenueNameChange.bind(this);
+    this.onVenueAddressChange = this.onVenueAddressChange.bind(this);
   }
 
     handleTabChange(event, newValue) {
       this.setState({activeIndex: newValue})
+    }
+
+    // from ticket info page
+    onOrganiserChange(event) {
+        this.setState({organiser: event.target.value})
+    };
+
+    onEventNameChange(event) {
+        this.setState({eventName: event.target.value})
+    };
+
+    handleTypeChange(event) {
+        this.setState({type: event.target.value})
+    };
+
+    handleCheckChange() {
+        this.setState(prevState => ({private: !prevState.private }));
+    };
+
+    onVenueNameChange(event) {
+        this.setState({venueName: event.target.value})
+    };
+
+    onVenueAddressChange(event) {
+        this.setState({venueAddress: event.target.value})
     }
 
     render() {
@@ -125,43 +169,67 @@ class SummaryPage extends React.Component {
                   <MyTab label='Attendees Management' />
                 </VerticalTabs>
 
-                { this.state.activeIndex === 0 && <TabContainer><TicketInfoComponent /></TabContainer> }
-                { this.state.activeIndex === 1 && <TabContainer></TabContainer> }
+                { this.state.activeIndex === 0 && 
+                  <TabContainer>
+                    <TicketInfoComponent 
+                      onOrganiserChange={this.onOrganiserChange}
+                      onEventNameChange={this.onEventNameChange}
+                      handleTypeChange={this.handleTypeChange}
+                      handleCheckChange={this.handleCheckChange}
+                      onVenueNameChange={this.onVenueNameChange}
+                      onVenueAddressChange={this.onVenueAddressChange}
+                      />
+                  </TabContainer> 
+                }
+                { this.state.activeIndex === 1 && 
+                  <TabContainer>
+                    <EventScheduleComponent 
+                      organiser={this.state.organiser} 
+                      eventName={this.state.eventName}
+                      type={this.state.type}
+                      private={this.state.private}
+                      venueName={this.state.venueName}
+                      venueAddress={this.state.venueAddress}
+                      />
+                  </TabContainer> }
                 { this.state.activeIndex === 2 && <TabContainer></TabContainer> }
               </div>
 
             </div>
             <div className="mobile d-md-none">
-
-                  <div className="row-margin">
-                    <TicketInfoComponent />
-                  </div>
-                  <div className="row-margin">
-                  
-                  </div>
-                  <div className="row-margin">
-                    
-                  </div>
-                  <div className="row-margin">
-                  
-                  </div>
-                  <div className="row-margin">
-                    
-                  </div>
-              </div>
+              <TabPanel value={this.state.activeIndex} index={0}>
+                <TicketInfoComponent 
+                  onOrganiserChange={this.onOrganiserChange}
+                  onEventNameChange={this.onEventNameChange}
+                  handleTypeChange={this.handleTypeChange}
+                  handleCheckChange={this.handleCheckChange}
+                  onVenueNameChange={this.onVenueNameChange}
+                  onVenueAddressChange={this.onVenueAddressChange}
+                />
+              </TabPanel>
+              <TabPanel value={this.state.activeIndex} index={1}>
+                <EventScheduleComponent />
+              </TabPanel>
+            </div>
           </Container>
 
           <div className="mobile d-md-none">
-            <div className="row no-gutters" style={mobileTab}>
-                <TabImageOne fill="#4d4d4d" />
-                <TabImageTwo />
-                <TabImageThree />
-            </div>
+            <HorizontalTabs
+                value={this.state.activeIndex}
+                onChange={this.handleTabChange}
+            >
+                <Tab icon={<TabImageOne fill="#4d4d4d" />} />
+                <Tab icon={<TabImageTwo />} />
+                <Tab icon={<TabImageThree />} />
+                <Tab icon={<TabImageFour />} />
+                <Tab icon={<TabImageFive />} />
+            </HorizontalTabs>
           </div>
 
           <Container classes={{root: classes.buttonContainer}} maxWidth={false}>
              
               <Button
+                onClick={ () => this.setState(prevState => ({activeIndex: prevState.activeIndex -1 })) }
                 classes={{
                     root: classes.discardButton
                 }}
@@ -170,6 +238,7 @@ class SummaryPage extends React.Component {
                 </Button>
 
                 <Button
+                    onClick={ () => this.setState(prevState => ({activeIndex: prevState.activeIndex + 1 })) }
                     classes={{
                     root: classes.continueButton
                     }}
@@ -182,6 +251,27 @@ class SummaryPage extends React.Component {
       );
     }
 }
+
+
+
+
+
+const HorizontalTabs = withStyles(theme => ({
+  flexContainer: {
+    flexDirection: 'row',
+    height: '60px',
+    width: '100%',
+    background: '#ffffff',
+    position: 'fixed',
+    zIndex: '20',
+    bottom: '50px',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  indicator: {
+    display: 'none',
+  }
+}))(Tabs)
 
 const VerticalTabs = withStyles(theme => ({
   flexContainer: {
@@ -209,6 +299,23 @@ const MyTab = withStyles(theme => ({
     borderRight: '2px solid'+theme.palette.primary.main,
   }
 }))(Tab);
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-force-tabpanel-${index}`}
+      aria-labelledby={`scrollable-force-tab-${index}`}
+      {...other}
+    >
+      <Box>{children}</Box>
+    </Typography>
+  );
+}
 
 
 export default withStyles(styles)(SummaryPage);
