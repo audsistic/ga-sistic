@@ -59,7 +59,7 @@ let theme = createMuiTheme({
         root: {
           textTransform: 'none',
         }
-      }
+      },
     }
   });
   

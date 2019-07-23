@@ -209,7 +209,6 @@ class Inputs extends React.Component {
   }
 
     handleChange(event) {
-      // console.log("HELLO", event)
       this.setState({type: event.target.value})
     }
   
