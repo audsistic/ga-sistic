@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import StaticDatePicker from './StaticDatePicker';
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from '@date-io/moment';
 
@@ -24,8 +23,8 @@ const styles = theme => ({
     marginRoot: {
         [theme.breakpoints.up('md')]: {
           margin: '7.5px 5.5px 0px 0px',
-          width: '45.625vw',
-          maxWidth: '243px',
+          width: '31.1805555vw',
+          maxWidth: '449px',
         },
         [theme.breakpoints.down('sm')]: {
             margin: '7.5px 0px',
@@ -39,6 +38,12 @@ const styles = theme => ({
         top: theme.spacing(1),
         color: theme.palette.grey[500],
       },
+      selectDates: {
+          marginTop: '44px',
+      },
+      datepicker: {
+          width: '682px',
+      }
 })
 
 const gradientDiv = {
@@ -66,15 +71,55 @@ class ModalDTPicker extends Component {
     constructor(props) {
         super()
         this.state = {
-            date: "",
+            //adjusting elements
+            timeShrink: false,
+
+            date: new Date(),
         }
 
+        this.shrinkLabel = this.shrinkLabel.bind(this);
+        this.unShrinkLabel = this.unShrinkLabel.bind(this);
         this.changeDate = this.changeDate.bind(this);
     }
 
+    shrinkLabel = (event) => {
+        const { onFocus } = this.props;
+        if (event.target.id === "date") {
+            this.setState({dateShrink: true});
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "time") {
+            this.setState({timeShrink: true});
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "duration") {
+            this.setState({durationShrink: true, duration: "",});
+            onFocus && onFocus(event); 
+        }
+    };
 
-    changeDate() {
-        this.setState({date: ""})
+    unShrinkLabel = (event) => {
+        const { onBlur } = this.props;
+        
+        if (event.target.id === "date") {
+            if(event.target.value.length === 0) {
+                this.setState({dateShrink: false})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "time") {
+            if(event.target.value.length === 0) {
+                this.setState({timeShrink: false})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "duration") {
+            if(event.target.value.length === 0) {
+                this.setState({durationShrink: false, duration: "Eg. Approximately 1 hr",})
+            }
+            onBlur && onBlur(event); 
+        }
+    };
+
+
+    changeDate(date) {
+        this.setState({date})
     }
 
     render() {
@@ -98,13 +143,24 @@ class ModalDTPicker extends Component {
                         <CloseIcon />
                     </IconButton>
                 
-                    <Typography>Please Select Dates</Typography>
+                    <Typography classes={{
+                        root: classes.selectDates
+                    }}>Please Select Dates</Typography>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <StaticDatePicker />
+                        <DatePicker
+                            autoOk
+                            disablePast
+                            disableToolbar
+                            orientation="landscape"
+                            variant="static"
+                            openTo="date"
+                            value={this.state.date}
+                            onChange={this.changeDate}
+                        />
                     </MuiPickersUtilsProvider>
 
                     <Typography>Please Select Time</Typography> 
-                    <FormControl classes={{root: classes.marginRootSmaller}}>
+                    <FormControl classes={{root: classes.marginRoot}}>
                         <TextField
                             id="time"
                             label="Time"
