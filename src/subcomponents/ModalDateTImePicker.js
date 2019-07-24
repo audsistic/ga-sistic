@@ -79,6 +79,15 @@ const styles = theme => ({
           width: '222px',
           height: '56px',
           borderRadius: '0px',
+          '&:hover': {
+            background: theme.palette.primary.dark,
+          },
+          [theme.breakpoints.up('md')]: {
+            width: '222px',
+          },
+          [theme.breakpoints.down('sm')]: {
+            width: '134px',
+          }
       },
       formGroup: {
           alignItems: 'flex-end',
@@ -95,12 +104,21 @@ const styles = theme => ({
           backgroundColor: '#f7f7f7',
           padding: '16px 28px 21px 40px',
       },
-      buttonAction: {
+      buttonDelete: {
         borderRadius: '18px',
         width: '122px',
         height: '35px',
         color: '#4a4a4a',
         border: '1px solid #979797',
+        margin: '0px 4px',
+    },
+    buttonEdit: {
+        borderRadius: '18px',
+        width: '100px',
+        height: '35px',
+        color: '#4a4a4a',
+        border: '1px solid #979797',
+        margin: '0px 4px',
     },
     buttonLabel: {
         margin: 'auto',
@@ -128,9 +146,13 @@ const inputNativeAfter = {
     paddingTop: '32px',
 }
 
-const eventDates = {
+const eventDatesHeader = {
     fontSize: '12px',
     fontFamily: 'Open Sans-Bold',
+}
+
+const eventDatesText = {
+    fontSize: '19px',
 }
 
 const defaultMaterialTheme = createMuiTheme({
@@ -332,15 +354,18 @@ class ModalDTPicker extends Component {
                             root: classes.bottomGrid
                         }}
                         > 
-                            <Grid>
-                                <div style={eventDates}>Event Dates</div>
-                                <div>04/05/2019 ~ 05/05/2019</div>
+                            <Grid xs={6}>
+                                <div style={eventDatesHeader}>Event Dates</div>
+                                <div style={eventDatesText}>04/05/2019 ~ 05/05/2019</div>
                             </Grid>
-                            <Grid>
+                            <Grid xs={6} 
+                                container 
+                                justify="flex-end"
+                                alignItems="center">
                                 <Button 
                                     variant="outlined" 
                                     classes={{
-                                        root: classes.buttonAction,
+                                        root: classes.buttonDelete,
                                         label: classes.buttonLabel,
                                         }}>
                                     <DeleteIcon 
@@ -351,7 +376,7 @@ class ModalDTPicker extends Component {
                                 <Button 
                                     variant="outlined" 
                                     classes={{
-                                        root: classes.buttonAction,
+                                        root: classes.buttonEdit,
                                         label: classes.buttonLabel,
                                         }}>
                                     <EditIcon 
