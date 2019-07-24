@@ -150,7 +150,7 @@ class EventSchedule extends React.Component {
         //form values
         startDate: "",
         duration: "Eg. Approximately 1 hr",
-        open: true,
+        open: false,
     }
     this.shrinkLabel = this.shrinkLabel.bind(this);
     this.unShrinkLabel = this.unShrinkLabel.bind(this);
@@ -418,6 +418,7 @@ class EventSchedule extends React.Component {
                 Setting up a recurring event?
             </Typography>
             <Button 
+                onClick={()=>this.setState({open: true})}
                 variant="outlined" 
                 classes={{
                     root: classes.buttonSchedule,

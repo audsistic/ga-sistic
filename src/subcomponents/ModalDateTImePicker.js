@@ -5,7 +5,7 @@ import MomentUtils from '@date-io/moment';
 
 import { withStyles } from '@material-ui/core/styles';
 import {  ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from "@material-ui/core"; 
+import { createMuiTheme, FormGroup } from "@material-ui/core"; 
 import { Typography } from '@material-ui/core';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -17,12 +17,19 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Grid from '@material-ui/core/Grid';
 
 import { ReactComponent as ClockIcon } from '../../src/assets/images/icons/clock_icon.svg';
+import { ReactComponent as DeleteIcon } from '../../src/assets/images/icons/dustbin.svg';
+import { ReactComponent as EditIcon } from '../../src/assets/images/icons/pencil.svg';
 
 var moment = require('moment');
 
 const styles = theme => ({
+
+    dialogContentRoot: {
+        padding: '0px',
+    },
     marginRoot: {
         [theme.breakpoints.up('md')]: {
           margin: '7.5px 5.5px 0px 0px',
@@ -41,23 +48,23 @@ const styles = theme => ({
         top: theme.spacing(1),
         color: theme.palette.grey[500],
       },
-      selectDates: {
-          marginTop: '44px',
-      },
-      inputPropsDate: {
+    selectDates: {
+        marginTop: '44px',
+    },
+    inputPropsDate: {
+    background: '#FFFFFF',
+    height: '71px',
+    transform: 'unset',
+    borderTopLeftRadius: '0px',
+    borderTopRightRadius: '0px',
+    boxShadow: '0px 2px 4px rgba(219,219,219,0.5)',
+    border: '1px solid #e7e7e7',
+    '&:hover': {
         background: '#FFFFFF',
-        height: '71px',
-        transform: 'unset',
-        borderTopLeftRadius: '0px',
-        borderTopRightRadius: '0px',
-        boxShadow: '0px 2px 4px rgba(219,219,219,0.5)',
-        border: '1px solid #e7e7e7',
-        '&:hover': {
-          background: '#FFFFFF',
-          border: '1px solid #0080C9',
-        },
-      },
-      inputLabelShrink: {
+        border: '1px solid #0080C9',
+    },
+    },
+    inputLabelShrink: {
         color: '#0080C9 !important',
     },
       inputAdornment: {
@@ -66,6 +73,39 @@ const styles = theme => ({
         height: '20px',
         width: '20px',
       },
+      eventsButton: {
+          color: 'white',
+          backgroundColor: '#0080c9',
+          width: '222px',
+          height: '56px',
+          borderRadius: '0px',
+      },
+      formGroup: {
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+      },
+      topGrid: {
+        padding: '19px 18px 48px 31px',
+      },
+      divider: {
+        height: '2px',
+        background: 'linear-gradient(to right, #0080c9, #c86dd7)',
+      },
+      bottomGrid: {
+          backgroundColor: '#f7f7f7',
+          padding: '16px 28px 21px 40px',
+      },
+      buttonAction: {
+        borderRadius: '18px',
+        width: '122px',
+        height: '35px',
+        color: '#4a4a4a',
+        border: '1px solid #979797',
+    },
+    buttonLabel: {
+        margin: 'auto',
+        height: '100%',
+    }
 })
 
 const gradientDiv = {
@@ -88,7 +128,17 @@ const inputNativeAfter = {
     paddingTop: '32px',
 }
 
+const eventDates = {
+    fontSize: '12px',
+    fontFamily: 'Open Sans-Bold',
+}
+
 const defaultMaterialTheme = createMuiTheme({
+    palette: {
+        primary: {
+          main: '#a0d1ee',
+        },
+    },
     overrides: {
         MuiPickersStaticWrapper: {
             staticWrapperRoot: {
@@ -103,12 +153,12 @@ const defaultMaterialTheme = createMuiTheme({
         },
         MuiPickersCalendarHeader: {
             daysHeader: {
-                justifyContent: 'space-evenly',
-            }
+                justifyContent: 'space-between',
+            },
         },
         MuiPickersCalendar: {
             week: {
-                justifyContent: 'space-evenly',
+                justifyContent: 'space-between',
             }
         }
         
@@ -182,8 +232,20 @@ class ModalDTPicker extends Component {
                 aria-labelledby="customized-dialog-title"
                 open={this.props.open}
                 maxWidth={false}
+                PaperProps={{
+                    square: true,
+                }}
                 >
-                <DialogContent>
+                <DialogContent classes={{
+                    root: classes.dialogContentRoot,
+                }}>
+                <Grid
+                        container
+                        direction="column"
+                        classes={{
+                            root: classes.topGrid
+                        }}
+                        > 
                     <div style={
                         Object.assign({
                             margin: '35px 0px 24px',
@@ -213,46 +275,93 @@ class ModalDTPicker extends Component {
                     </MuiPickersUtilsProvider>
 
                     <Typography>Please Select Time</Typography> 
-                    <FormControl classes={{root: classes.marginRoot}}>
-                        <TextField
-                            id="time"
-                            label="Time"
-                            type="time"
-                            variant="filled"
-                            defaultValue="Hour: Min"
-                            // inputRef={el => this.date = el}
-                            className={classes.textFieldDate}
-                            onChange={this.onStartDateChange}
-                            onFocus={this.shrinkLabel}
-                            onBlur={this.unShrinkLabel}
-                            InputProps={{
-                                classes: {
-                                    root: classes.inputPropsDate,
-                                }, 
-                                disableUnderline: true,
-                                endAdornment: 
-                                !this.state.timeShrink && 
-                                    <InputAdornment 
-                                        position="end"
-                                        classes={{positionEnd: classes.inputAdornment}}>
-                                        <ClockIcon />
-                                    </InputAdornment>,
-                                inputProps: {
-                                    style: this.state.timeShrink ? inputNativeAfter : inputNativeBefore,
-                                }
-                
-                            }}
-                            InputLabelProps={{
-                                classes: {
-                                    root: classes.inputLabelDate,
-                                    focused: classes.inputLabelFocused,
-                                    shrink: classes.inputLabelShrink,
-                                },
-                                shrink: this.state.timeShrink,
-                            }}
-                        />
-                        <Button>Add Events</Button>
-                    </FormControl>
+                    <FormGroup classes={{
+                            root: classes.formGroup
+                        }} row>
+                        <FormControl classes={{root: classes.marginRoot}}>
+                            <TextField
+                                id="time"
+                                label="Time"
+                                type="time"
+                                variant="filled"
+                                defaultValue="Hour: Min"
+                                // inputRef={el => this.date = el}
+                                className={classes.textFieldDate}
+                                onChange={this.onStartDateChange}
+                                onFocus={this.shrinkLabel}
+                                onBlur={this.unShrinkLabel}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.inputPropsDate,
+                                    }, 
+                                    disableUnderline: true,
+                                    endAdornment: 
+                                    !this.state.timeShrink && 
+                                        <InputAdornment 
+                                            position="end"
+                                            classes={{positionEnd: classes.inputAdornment}}>
+                                            <ClockIcon />
+                                        </InputAdornment>,
+                                    inputProps: {
+                                        style: this.state.timeShrink ? inputNativeAfter : inputNativeBefore,
+                                    }
+                    
+                                }}
+                                InputLabelProps={{
+                                    classes: {
+                                        root: classes.inputLabelDate,
+                                        focused: classes.inputLabelFocused,
+                                        shrink: classes.inputLabelShrink,
+                                    },
+                                    shrink: this.state.timeShrink,
+                                }}
+                            />
+                        </FormControl>
+                        <Button classes={{
+                                root: classes.eventsButton
+                            }}>+ Add Events</Button>
+                    </FormGroup>
+                    </Grid>
+                    <Grid direction="row" className={classes.divider}></Grid>
+                    <Grid
+                        container
+                        direction="row"
+                        // justify="center"
+                        alignItems="center"
+                        classes={{
+                            root: classes.bottomGrid
+                        }}
+                        > 
+                            <Grid>
+                                <div style={eventDates}>Event Dates</div>
+                                <div>04/05/2019 ~ 05/05/2019</div>
+                            </Grid>
+                            <Grid>
+                                <Button 
+                                    variant="outlined" 
+                                    classes={{
+                                        root: classes.buttonAction,
+                                        label: classes.buttonLabel,
+                                        }}>
+                                    <DeleteIcon 
+                                        style={{ marginRight: '5px', }} 
+                                        fill="#4a4a4a"
+                                        /> Delete
+                                </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    classes={{
+                                        root: classes.buttonAction,
+                                        label: classes.buttonLabel,
+                                        }}>
+                                    <EditIcon 
+                                        style={{ marginRight: '5px', }} 
+                                        fill="#4a4a4a"
+                                        /> Edit
+                                </Button>
+                            </Grid>
+                            
+                    </Grid>
                 </DialogContent>
             </Dialog>
         )
