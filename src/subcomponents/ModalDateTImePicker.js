@@ -4,12 +4,15 @@ import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from '@date-io/moment';
 
 import { withStyles } from '@material-ui/core/styles';
+import {  ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from "@material-ui/core"; 
 import { Typography } from '@material-ui/core';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import Button from '@material-ui/core/Button';
 
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
@@ -41,6 +44,28 @@ const styles = theme => ({
       selectDates: {
           marginTop: '44px',
       },
+      inputPropsDate: {
+        background: '#FFFFFF',
+        height: '71px',
+        transform: 'unset',
+        borderTopLeftRadius: '0px',
+        borderTopRightRadius: '0px',
+        boxShadow: '0px 2px 4px rgba(219,219,219,0.5)',
+        border: '1px solid #e7e7e7',
+        '&:hover': {
+          background: '#FFFFFF',
+          border: '1px solid #0080C9',
+        },
+      },
+      inputLabelShrink: {
+        color: '#0080C9 !important',
+    },
+      inputAdornment: {
+        marginTop: '0px !important',
+        marginRight: '7px',
+        height: '20px',
+        width: '20px',
+      },
 })
 
 const gradientDiv = {
@@ -63,6 +88,34 @@ const inputNativeAfter = {
     paddingTop: '32px',
 }
 
+const defaultMaterialTheme = createMuiTheme({
+    overrides: {
+        MuiPickersStaticWrapper: {
+            staticWrapperRoot: {
+                width: '683px',
+            }
+        },
+        MuiPickersBasePicker: {
+            pickerView: {
+                maxWidth: '683px',
+                width: '47.4305556vw',
+            }
+        },
+        MuiPickersCalendarHeader: {
+            daysHeader: {
+                justifyContent: 'space-evenly',
+            }
+        },
+        MuiPickersCalendar: {
+            week: {
+                justifyContent: 'space-evenly',
+            }
+        }
+        
+    }
+});
+
+  
 class ModalDTPicker extends Component {
 
     constructor(props) {
@@ -128,6 +181,7 @@ class ModalDTPicker extends Component {
                 onClose={this.handleClose}
                 aria-labelledby="customized-dialog-title"
                 open={this.props.open}
+                maxWidth={false}
                 >
                 <DialogContent>
                     <div style={
@@ -144,16 +198,18 @@ class ModalDTPicker extends Component {
                         root: classes.selectDates
                     }}>Please Select Dates</Typography>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DatePicker
-                            autoOk
-                            disablePast
-                            disableToolbar
-                            orientation="landscape"
-                            variant="static"
-                            openTo="date"
-                            value={this.state.date}
-                            onChange={this.changeDate}
-                        />
+                        <ThemeProvider theme={defaultMaterialTheme}>
+                            <DatePicker
+                                autoOk
+                                disablePast
+                                disableToolbar
+                                orientation="landscape"
+                                variant="static"
+                                openTo="date"
+                                value={this.state.date}
+                                onChange={this.changeDate}
+                            />
+                        </ThemeProvider>
                     </MuiPickersUtilsProvider>
 
                     <Typography>Please Select Time</Typography> 
@@ -195,6 +251,7 @@ class ModalDTPicker extends Component {
                                 shrink: this.state.timeShrink,
                             }}
                         />
+                        <Button>Add Events</Button>
                     </FormControl>
                 </DialogContent>
             </Dialog>
