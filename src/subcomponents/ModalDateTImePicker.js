@@ -41,9 +41,6 @@ const styles = theme => ({
       selectDates: {
           marginTop: '44px',
       },
-      datepicker: {
-          width: '682px',
-      }
 })
 
 const gradientDiv = {
