@@ -1,5 +1,8 @@
 import React from 'react';
 
+import GoogleMap from '../subcomponents/GoogleMaps';
+import ModalDTPicker from '../subcomponents/ModalDateTImePicker';
+
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
@@ -47,6 +50,9 @@ const styles = theme => ({
     },
     gridRow: {
         marginBottom: '45px',
+        [theme.breakpoints.down('sm')]: {
+            marginBottom: '24px',
+        },
     },
     textFieldDate: {
         border: '1px solid #E7E7E7',
@@ -93,6 +99,7 @@ const welcomeHeader = {
     lineHeight: 1.3529,
     color: '#000000',
     textDecoration: 'none solid rgb(0, 0, 0)',
+    marginBottom: '12px',
 }
 
 const contentStyle = {
@@ -132,13 +139,23 @@ class EventSchedule extends React.Component {
         timeShrink: false,
         durationShrink: false,
 
+        //previous page values
+        organiser: props.organiser ? props.organiser : "Not specified",
+        eventName: props.eventName ? props.eventName: "Not specified",
+        type: props.type ? props.type : "Not specified",
+        private: props.private ? props.private : "Not specified",
+        venueName: props.venueName ? props.venueName : "Not specified",
+        venueAddress: props.venueAddress ? props.venueAddress : "Not specified",
+
         //form values
         startDate: "",
         duration: "Eg. Approximately 1 hr",
+        open: true,
     }
     this.shrinkLabel = this.shrinkLabel.bind(this);
     this.unShrinkLabel = this.unShrinkLabel.bind(this);
     this.onStartDateChange = this.onStartDateChange.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   }
 
     shrinkLabel = (event) => {
@@ -180,6 +197,10 @@ class EventSchedule extends React.Component {
         this.setState({ startDate: moment(event.target.value).format('LL') })
     };
 
+    handleModalClose() {
+        this.setState({open: false});
+    }
+
     render() {
 
       const { classes } = this.props;
@@ -188,9 +209,7 @@ class EventSchedule extends React.Component {
         <div className="event-schedule">
             <div style={welcomeHeader}>Welcome, John Doe</div>
             <Typography variant="h1" gutterBottom> 
-                {
-                    this.props.eventName ? this.props.eventName : "Not specified"
-                }</Typography>
+                { this.state.eventName }</Typography>
             
             <Grid
                 container
@@ -212,16 +231,12 @@ class EventSchedule extends React.Component {
                         <Grid item xs={6} zeroMinWidth> 
                             <Typography variant="h5">Organised by</Typography>
                             <div style={contentStyle}>
-                            {
-                                this.props.organiser ? this.props.organiser : "Not specified"
-                            }
+                            { this.state.organiser }
                             </div>
                         </Grid>
                         <Grid item xs={6} zeroMinWidth> 
                             <Typography variant="h5">Venue</Typography>
-                            <div style={contentStyle}>{
-                                this.props.venueName ? this.props.venueName : "Not specified"
-                            }
+                            <div style={contentStyle}>{ this.state.venueName }
                             </div>
                         </Grid>
                     </Grid>
@@ -234,23 +249,46 @@ class EventSchedule extends React.Component {
                     >
                         <Grid item xs={6} zeroMinWidth> 
                             <Typography variant="h5">Genre</Typography>
-                            <div style={contentStyle}>{
-                                this.props.type ? this.props.type : "Not specified"
-                            }
+                            <div style={contentStyle}>{ this.state.type }
                             </div>
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={6} zeroMinWidth> 
-                    <div style={{
-                        background: 'grey',
-                        height: '149px',
-                        width: '230px',
 
-                    }}></div>
-                </Grid>
+                <div className="desktop d-none d-md-block">
+                    <Grid item xs={6} zeroMinWidth> 
+                        <div style={{
+                            background: 'grey',
+                            height: '149px',
+                            width: '230px',
+                        }}>
+                            <GoogleMap venueName={ this.state.venueName } />
+                        </div>
+                    </Grid>
+                </div>
+                    
             </Grid>
 
+            <div className="mobile d-md-none">
+                <Grid
+                    container
+                    direction="row"
+                    spacing={1}
+                    justify="flex-start"
+                    alignItems="center"
+                    classes={{root: classes.gridRow}}
+                    >
+                        <div style={{
+                            background: 'grey',
+                            height: '149px',
+                            width: '100%',
+                        }}>
+                            <GoogleMap venueName={ this.state.venueName } />
+                        </div>
+                </Grid>
+
+            </div>
+            
             <div style={
                 Object.assign({
                     margin: '48px 0px 18px',
@@ -376,19 +414,20 @@ class EventSchedule extends React.Component {
                 }}
             />
           </FormControl>
-          <Typography variant="h4" classes={{ root: classes.typoRecurring, }}>
-            Setting up a recurring event?
+            <Typography variant="h4" classes={{ root: classes.typoRecurring, }}>
+                Setting up a recurring event?
             </Typography>
-          <Button 
-            variant="outlined" 
-            classes={{
-                root: classes.buttonSchedule,
-                }}>
-            <ScheduleIcon 
-                style={{ marginRight: '5px', }} 
-                fill="#4a4a4a"
-                /> Advance Schedule
-        </Button>
+            <Button 
+                variant="outlined" 
+                classes={{
+                    root: classes.buttonSchedule,
+                    }}>
+                <ScheduleIcon 
+                    style={{ marginRight: '5px', }} 
+                    fill="#4a4a4a"
+                    /> Advance Schedule
+            </Button>
+            <ModalDTPicker open={this.state.open} handleModalClose={this.handleModalClose} />
         </div>
       );
     }

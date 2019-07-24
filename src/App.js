@@ -12,7 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import CompTest from './experiments/ComponentTest';
 import Home from './Home';
-import SummaryComponent from './pages/SummaryPage';
+import SummaryComponent from './maincomponents/SummaryPage';
 
 import NoMatch from './errors/ErrorPage';
 // import Hidden from '@material-ui/core/Hidden';

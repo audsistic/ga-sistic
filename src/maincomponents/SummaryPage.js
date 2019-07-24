@@ -294,6 +294,9 @@ function TabContainer(props) {
 }
 
 const MyTab = withStyles(theme => ({
+  wrapper: {
+    alignItems: 'flex-start',
+  },
   selected: {
     color: theme.palette.primary.main,
     borderRight: '2px solid'+theme.palette.primary.main,
