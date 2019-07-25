@@ -51,11 +51,6 @@ const hrDate = {
   fill: "#D4D4D4",
 }
 
-const timeDiv = {
-  marginLeft: '10px',
-  color: '#4A4A4A',
-}
-
 const eventDate = {
   fontSize: '18px',
   color: '#868686',

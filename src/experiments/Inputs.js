@@ -5,15 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-// import { Typography } from '@material-ui/core';
 
-import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { ReactComponent as SearchIcon } from '../../src/assets/images/icons/search.svg';
-
-var moment = require('moment');
 
 const styles = theme => ({
   marginRoot: {

@@ -1,12 +1,11 @@
 import React from 'react';
 
-import GoogleMap from '../subcomponents/GoogleMaps';
+import ProgressSummary from '../subcomponents/ProgressSummary';
 import ModalDTPicker from '../subcomponents/ModalDateTImePicker';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
-import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -48,12 +47,6 @@ const styles = theme => ({
         marginBottom: '20.5px',
         maxWidth: '488px',
     },
-    gridRow: {
-        marginBottom: '45px',
-        [theme.breakpoints.down('sm')]: {
-            marginBottom: '24px',
-        },
-    },
     textFieldDate: {
         border: '1px solid #E7E7E7',
         boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
@@ -92,21 +85,6 @@ const gradientDiv = {
     background: 'linear-gradient(to right, #0080C9, #C86DD7)',
     height: '5px',
     width: '100px',
-}
-
-const welcomeHeader = {
-    fontSize: '17px',
-    lineHeight: 1.3529,
-    color: '#000000',
-    textDecoration: 'none solid rgb(0, 0, 0)',
-    marginBottom: '12px',
-}
-
-const contentStyle = {
-    fontSize: '14px',
-    color: '#000000',
-    lineHeight: 1.357,
-    textDecoration: 'none solid rgb(153, 153, 153)',
 }
 
 const inputNativeBefore = {
@@ -207,88 +185,14 @@ class EventSchedule extends React.Component {
 
       return (
         <div className="event-schedule">
-            <div style={welcomeHeader}>Welcome, John Doe</div>
-            <Typography variant="h1" gutterBottom> 
-                { this.state.eventName }</Typography>
-            
-            <Grid
-                container
-                direction="row"
-                spacing={1}
-                justify="flex-start"
-                alignItems="center"
-                classes={{root: classes.gridRow}}
-                >
-                <Grid item xs={6} zeroMinWidth> 
-                    <Grid
-                        container
-                        direction="row"
-                        spacing={1}
-                        justify="flex-start"
-                        alignItems="center"
-                        classes={{root: classes.gridRow}}
-                        >
-                        <Grid item xs={6} zeroMinWidth> 
-                            <Typography variant="h5">Organised by</Typography>
-                            <div style={contentStyle}>
-                            { this.state.organiser }
-                            </div>
-                        </Grid>
-                        <Grid item xs={6} zeroMinWidth> 
-                            <Typography variant="h5">Venue</Typography>
-                            <div style={contentStyle}>{ this.state.venueName }
-                            </div>
-                        </Grid>
-                    </Grid>
-                    <Grid
-                        container
-                        direction="row"
-                        spacing={1}
-                        justify="flex-start"
-                        alignItems="center"
-                    >
-                        <Grid item xs={6} zeroMinWidth> 
-                            <Typography variant="h5">Genre</Typography>
-                            <div style={contentStyle}>{ this.state.type }
-                            </div>
-                        </Grid>
-                    </Grid>
-                </Grid>
-
-                <div className="desktop d-none d-md-block">
-                    <Grid item xs={6} zeroMinWidth> 
-                        <div style={{
-                            background: 'grey',
-                            height: '149px',
-                            width: '230px',
-                        }}>
-                            <GoogleMap venueName={ this.state.venueName } />
-                        </div>
-                    </Grid>
-                </div>
-                    
-            </Grid>
-
-            <div className="mobile d-md-none">
-                <Grid
-                    container
-                    direction="row"
-                    spacing={1}
-                    justify="flex-start"
-                    alignItems="center"
-                    classes={{root: classes.gridRow}}
-                    >
-                        <div style={{
-                            background: 'grey',
-                            height: '149px',
-                            width: '100%',
-                        }}>
-                            <GoogleMap venueName={ this.state.venueName } />
-                        </div>
-                </Grid>
-
-            </div>
-            
+            <ProgressSummary eventSchedule
+                  organiser={this.state.organiser}
+                  eventName={this.state.eventName}
+                  type={this.state.type}
+                  private={this.state.private}
+                  venueName={this.state.venueName}
+                  venueAddress={this.state.venueAddress}
+              />
             <div style={
                 Object.assign({
                     margin: '48px 0px 18px',

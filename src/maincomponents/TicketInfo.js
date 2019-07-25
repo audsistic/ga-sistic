@@ -12,10 +12,6 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { ReactComponent as SearchIcon } from '../../src/assets/images/icons/search.svg';
-
-var moment = require('moment');
-
 const styles = theme => ({
   marginRoot: {
     [theme.breakpoints.up('md')]: {

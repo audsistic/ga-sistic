@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import clsx from "clsx";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from '@date-io/moment';
 
@@ -176,6 +177,8 @@ const defaultMaterialTheme = createMuiTheme({
         MuiPickersCalendarHeader: {
             daysHeader: {
                 justifyContent: 'space-between',
+                borderBottom: '1px solid #979797',
+                padding: '5px 0 18px',
             },
         },
         MuiPickersCalendar: {
@@ -241,8 +244,38 @@ class ModalDTPicker extends Component {
 
 
     changeDate(date) {
-        this.setState({date})
+        this.setState({date: moment(date).startOf('week')});
     }
+
+    renderWrappedWeekDay = (date, selectedDate, dayInCurrentMonth) => {
+        const { classes } = this.props;
+    
+        const start = moment(selectedDate).startOf('week');
+        const end = moment(selectedDate).endOf('week');
+    
+        const dayIsBetween = moment(date).isBetween(start, end);
+        const isFirstDay = moment(date).isSame(start, 'day');
+        const isLastDay = moment(date).isSame(end, 'day');
+    
+        const wrapperClassName = clsx({
+          [classes.highlight]: dayIsBetween,
+          [classes.firstHighlight]: isFirstDay,
+          [classes.endHighlight]: isLastDay,
+        });
+    
+        const dayClassName = clsx(classes.day, {
+          [classes.nonCurrentMonthDay]: !dayInCurrentMonth,
+          [classes.highlightNonCurrentMonthDay]: !dayInCurrentMonth && dayIsBetween,
+        });
+    
+        return (
+          <div className={wrapperClassName}>
+            <IconButton className={dayClassName}>
+              <span> {moment(date, "l")} </span>
+            </IconButton>
+          </div>
+        );
+      };
 
     render() {
 
@@ -292,6 +325,7 @@ class ModalDTPicker extends Component {
                                 openTo="date"
                                 value={this.state.date}
                                 onChange={this.changeDate}
+                                // renderDay={this.renderWrappedWeekDay}
                             />
                         </ThemeProvider>
                     </MuiPickersUtilsProvider>
@@ -344,7 +378,11 @@ class ModalDTPicker extends Component {
                             }}>+ Add Events</Button>
                     </FormGroup>
                     </Grid>
-                    <Grid direction="row" className={classes.divider}></Grid>
+                    <Grid 
+                        container 
+                        direction="row" 
+                        className={classes.divider}>
+                    </Grid>
                     <Grid
                         container
                         direction="row"
@@ -354,11 +392,11 @@ class ModalDTPicker extends Component {
                             root: classes.bottomGrid
                         }}
                         > 
-                            <Grid xs={6}>
+                            <Grid item xs={6}>
                                 <div style={eventDatesHeader}>Event Dates</div>
                                 <div style={eventDatesText}>04/05/2019 ~ 05/05/2019</div>
                             </Grid>
-                            <Grid xs={6} 
+                            <Grid item xs={6} 
                                 container 
                                 justify="flex-end"
                                 alignItems="center">

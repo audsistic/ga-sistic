@@ -111,7 +111,7 @@ class Cards extends React.Component {
                         Professor Edwin Thumboo
 -                        </Typography>
 -                        <Typography component="p" classes={{root: classes.location}}>
--                            <img style={{ marginRight: '7px',}} src={require('../../src/assets/images/icons/pin.svg')} width="15px" height="25px" />
+-                            <img style={{ marginRight: '7px',}} src={require('../../src/assets/images/icons/pin.svg')} width="15px" height="25px" alt="" />
 -                            National Gallery
 -                        </Typography>
 -                    </CardContent>

@@ -12,6 +12,7 @@ import Box from '@material-ui/core/Box';
 
 import TicketInfoComponent from './TicketInfo';
 import EventScheduleComponent from './EventSchedule';
+import PriceDetail from './PriceDetail';
 
 import { ReactComponent as TabImageOne } from '../../src/assets/images/icons/tabs/tab_1.svg';
 import { ReactComponent as TabImageTwo } from '../../src/assets/images/icons/tabs/tab_2.svg';
@@ -77,16 +78,6 @@ const styles = theme => ({
   }
 });
 
-const mobileTab = {
-  height: '60px',
-  width: '100%',
-  background: '#ffffff',
-  position: 'fixed',
-  zIndex: '20',
-  bottom: '50px',
-  justifyContent: 'space-evenly',
-  alignItems: 'center',
-}
 class SummaryPage extends React.Component {
 
 
@@ -95,7 +86,7 @@ class SummaryPage extends React.Component {
     this.state = {
       username: "",
       shrink: false,
-      activeIndex: 1,
+      activeIndex: 2,
 
       //ticket info
       organiser: "",
@@ -104,6 +95,11 @@ class SummaryPage extends React.Component {
       private: false,
       venueName: "",
       venueAddress: "",
+
+      //event schedule
+      dates: "",
+      time: "",
+      duration: "",
     }
     this.handleTabChange = this.handleTabChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
@@ -184,6 +180,7 @@ class SummaryPage extends React.Component {
                 { this.state.activeIndex === 1 && 
                   <TabContainer>
                     <EventScheduleComponent 
+                      //from ticket info
                       organiser={this.state.organiser} 
                       eventName={this.state.eventName}
                       type={this.state.type}
@@ -192,7 +189,22 @@ class SummaryPage extends React.Component {
                       venueAddress={this.state.venueAddress}
                       />
                   </TabContainer> }
-                { this.state.activeIndex === 2 && <TabContainer></TabContainer> }
+                { this.state.activeIndex === 2 && <TabContainer>
+                    <PriceDetail 
+                      //from ticket info
+                      organiser={this.state.organiser} 
+                      eventName={this.state.eventName}
+                      type={this.state.type}
+                      private={this.state.private}
+                      venueName={this.state.venueName}
+                      venueAddress={this.state.venueAddress}
+
+                      //from event schedule
+                      dates={this.state.dates}
+                      time={this.state.time}
+                      duration={this.state.duration}
+                    />
+                </TabContainer> }
               </div>
 
             </div>
@@ -208,7 +220,16 @@ class SummaryPage extends React.Component {
                 />
               </TabPanel>
               <TabPanel value={this.state.activeIndex} index={1}>
-                <EventScheduleComponent />
+                <EventScheduleComponent
+                    organiser={this.state.organiser} 
+                    eventName={this.state.eventName}
+                    type={this.state.type}
+                    private={this.state.private}
+                    venueName={this.state.venueName}
+                    venueAddress={this.state.venueAddress} />
+              </TabPanel>
+              <TabPanel value={this.state.activeIndex} index={2}>
+                <PriceDetail />
               </TabPanel>
             </div>
           </Container>
