@@ -162,6 +162,9 @@ class SummaryPage extends React.Component {
                   display: 'flex',
                 }}
               >
+              <div style={{
+                height: '100%',
+              }}>
                 <VerticalTabs
                   value={this.state.activeIndex}
                   onChange={this.handleTabChange}
@@ -173,6 +176,8 @@ class SummaryPage extends React.Component {
                   <MyTab label='Analytics' />
                   <MyTab label='Attendees Management' />
                 </VerticalTabs>
+              </div>
+                
 
                 { this.state.activeIndex === 0 && 
                   <TabContainer>
@@ -311,7 +316,9 @@ const VerticalTabs = withStyles(theme => ({
   flexContainer: {
     flexDirection: 'column',
     minWidth: '183px',
-    minHeight: '877px',
+    height: '100%',
+    minHeight: '723px',
+    maxHeight: '877px',
     borderRight: '1px solid #DADADA',
   },
   indicator: {
@@ -321,7 +328,7 @@ const VerticalTabs = withStyles(theme => ({
 
 function TabContainer(props) {
   return (
-      <Typography component="div" style={{ width: '80%', padding: '0px 72px', }}>
+      <Typography component="div" style={{ width: '80%', padding: '0px 72px 100px', }}>
         {props.children}
       </Typography>
   );

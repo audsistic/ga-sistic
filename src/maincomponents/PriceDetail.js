@@ -5,17 +5,21 @@ import ProgressSummary from '../subcomponents/ProgressSummary';
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
+import FormGroup from '@material-ui/core/FormGroup';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment'; 
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 import { ReactComponent as SeatsIcon } from '../../src/assets/images/icons/seats.svg';
 
 const styles = theme => ({
-    marginRoot: {
+    marginVenueCap: {
         [theme.breakpoints.up('md')]: {
-          margin: '7.5px 5.5px 0px 0px',
-          width: '22.22222vw',
-          maxWidth: '320px',
+          margin: '18px 5.5px 0px 0px',
+          width: '23.8889vw',
+          maxWidth: '344px',
         },
         [theme.breakpoints.down('sm')]: {
             margin: '7.5px 0px',
@@ -23,11 +27,47 @@ const styles = theme => ({
             maxWidth: '373px',
         },
     },
+    marginHowMany: {
+        [theme.breakpoints.up('md')]: {
+            margin: '0px 20px 0px 0px',
+            width: '18.05556vw',
+            maxWidth: '260px',
+          },
+          [theme.breakpoints.down('sm')]: {
+              margin: '7.5px 0px',
+              width: '90.09661vw',
+              maxWidth: '373px',
+          },
+    },
+    marginHoldReason: {
+        [theme.breakpoints.up('md')]: {
+            margin: '0px 20px 0px 0px',
+            width: '30.7638889vw',
+            maxWidth: '443px',
+          },
+          [theme.breakpoints.down('sm')]: {
+              margin: '7.5px 0px',
+              width: '90.09661vw',
+              maxWidth: '373px',
+          },
+    },
     marginTicketType: {
         [theme.breakpoints.up('md')]: {
-            margin: '7.5px 5.5px 0px 0px',
+            margin: '18px 19px 0px 0px',
             width: '26.805556vw',
             maxWidth: '386px',
+          },
+          [theme.breakpoints.down('sm')]: {
+              margin: '7.5px 0px',
+              width: '90.09661vw',
+              maxWidth: '373px',
+          },
+    },
+    marginPrice: {
+        [theme.breakpoints.up('md')]: {
+            margin: '18px 19px 0px 0px',
+            width: '10.277778vw',
+            maxWidth: '148px',
           },
           [theme.breakpoints.down('sm')]: {
               margin: '7.5px 0px',
@@ -63,6 +103,27 @@ const styles = theme => ({
         fontSize: '23px',
         margin: '43px auto 20px',
       },
+
+      typeButton: {
+        color: 'white',
+        backgroundColor: '#0080c9',
+        width: '222px',
+        height: '56px',
+        borderRadius: '0px',
+        '&:hover': {
+          background: theme.palette.primary.dark,
+        },
+        [theme.breakpoints.up('md')]: {
+          width: '222px',
+        },
+        [theme.breakpoints.down('sm')]: {
+          width: '134px',
+        }
+    },
+    grid: {
+        maxWidth: '723px',
+        marginTop: '16px',
+    }
 });
 
 const gradientDiv = {
@@ -84,6 +145,14 @@ const inputNativeAfter = {
     paddingTop: '32px',
 }
 
+const placeholderText = {
+    venueCap: "Maximum 500pax (defined by venue)",
+    holdSeats: "0-500",
+    holdReason: "eg. For VIP",
+    ticketType: "eg. General Admission",
+    price: "eg. 4.50",
+    capacity: "eg. 100",
+}
 class PriceDetail extends React.Component {
 
 
@@ -91,7 +160,11 @@ class PriceDetail extends React.Component {
     super()
     this.state = {
         venueCapShrink: false,
+        holdSeatsShrink: false,
+        holdReasonShrink: false,
         ticketTypeShrink: false,
+        priceShrink: false,
+        capacityShrink: false,
 
         //previous page values
         organiser: props.organiser ? props.organiser : "Not specified",
@@ -104,28 +177,61 @@ class PriceDetail extends React.Component {
         time: props.time ? props.time : "Not specified",
 
         //form values
-        venueCap: "Maximum 500pax (defined by venue)",
-        ticketType: "eg. General Admission",
-
+        venueCap: placeholderText.venueCap,
+        holdSeats: placeholderText.holdSeats,
+        holdReason: placeholderText.holdReason,
+        ticketType: placeholderText.ticketType,
+        price: placeholderText.price,
+        capacity: placeholderText.capacity,
+        
     }
+
     this.shrinkLabel = this.shrinkLabel.bind(this);
     this.unShrinkLabel = this.unShrinkLabel.bind(this);
     this.onVenueCapChange = this.onVenueCapChange.bind(this);
+    this.onHoldSeatsChange = this.onHoldSeatsChange.bind(this);
+    this.onHoldReasonChange = this.onHoldReasonChange.bind(this);
     this.onTicketTypeChange = this.onTicketTypeChange.bind(this);
+    this.onPriceChange = this.onPriceChange.bind(this);
+    this.onCapacityChange = this.onCapacityChange.bind(this);
   }
 
     shrinkLabel = (event) => {
         const { onFocus } = this.props;
         if (event.target.id === "venueCap") {
             this.setState({venueCapShrink: true});
-            if(event.target.value === "Maximum 500pax (defined by venue)") {
+            if(event.target.value === placeholderText.venueCap) {
                 this.setState({venueCap: ""})
+            }
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "holdSeats") {
+            this.setState({holdSeatsShrink: true});
+            if(event.target.value === placeholderText.holdSeats) {
+                this.setState({holdSeats: ""})
+            }
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "holdReason") {
+            this.setState({holdReasonShrink: true});
+            if(event.target.value === placeholderText.holdReason) {
+                this.setState({holdReason: ""})
             }
             onFocus && onFocus(event); 
         } else if (event.target.id === "ticketType") {
             this.setState({ticketTypeShrink: true});
-            if(event.target.value === "eg. General Admission") {
+            if(event.target.value === placeholderText.ticketType) {
                 this.setState({ticketType: ""})
+            }
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "price") {
+            this.setState({priceShrink: true});
+            if(event.target.value === placeholderText.price) {
+                this.setState({price: ""})
+            }
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "capacity") {
+            this.setState({capacityShrink: true});
+            if(event.target.value === placeholderText.capacity) {
+                this.setState({capacity: ""})
             }
             onFocus && onFocus(event); 
         } 
@@ -136,12 +242,32 @@ class PriceDetail extends React.Component {
         
         if (event.target.id === "venueCap") {
             if(event.target.value.length === 0) {
-                this.setState({venueCapShrink: false, venueCap: "Maximum 500pax (defined by venue)",})
+                this.setState({venueCapShrink: false, venueCap: placeholderText.venueCap,})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "holdSeats") {
+            if(event.target.value.length === 0) {
+                this.setState({holdSeatsShrink: false, holdSeats: placeholderText.holdSeats,})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "holdReason") {
+            if(event.target.value.length === 0) {
+                this.setState({holdReasonShrink: false, holdReason: placeholderText.holdReason,})
             }
             onBlur && onBlur(event); 
         } else if (event.target.id === "ticketType") {
             if(event.target.value.length === 0) {
-                this.setState({ticketTypeShrink: false, ticketType: "eg. General Admission",})
+                this.setState({ticketTypeShrink: false, ticketType: placeholderText.ticketType,})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "price") {
+            if(event.target.value.length === 0) {
+                this.setState({priceShrink: false, price: placeholderText.price,})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "capacity") {
+            if(event.target.value.length === 0) {
+                this.setState({capacityShrink: false, capacity: placeholderText.capacity,})
             }
             onBlur && onBlur(event); 
         } 
@@ -152,9 +278,25 @@ class PriceDetail extends React.Component {
         this.props.onVenueCapChange(event);
     }
 
+    onHoldSeatsChange(event) {
+        this.setState({holdSeats: event.target.value});
+    }
+
+    onHoldReasonChange(event) {
+        this.setState({holdReason: event.target.value});
+    }
+
     onTicketTypeChange(event) {
         this.setState({ticketType: event.target.value});
         // this.props.onTicketTypeChange(event);
+    }
+
+    onPriceChange(event) {
+        this.setState({price: event.target.value});
+    }
+
+    onCapacityChange(event) {
+        this.setState({capacity: event.target.value});
     }
 
     render() {
@@ -185,11 +327,11 @@ class PriceDetail extends React.Component {
             <Typography variant="h1" gutterBottom> 
                 Total Venue Capacity
             </Typography>
-            <Typography variant="h4" gutterBottom classes={{ root: classes.typoRoot, }}>
+            <Typography variant="h4" classes={{ root: classes.typoRoot, }}>
                 How many participants can your selected venue fit
             </Typography>
             
-            <FormControl classes={{root: classes.marginRoot}}>
+            <FormControl classes={{root: classes.marginVenueCap}}>
               <TextField
                 id="venueCap"
                 label="Venue Capacity"
@@ -227,7 +369,75 @@ class PriceDetail extends React.Component {
           >
             <SeatsIcon /> Need to put some seats on hold?
           </Typography>
-        
+            
+            <FormGroup row>
+                <FormControl classes={{root: classes.marginHowMany}}>
+                    <TextField
+                        id="holdSeats"
+                        label="No. of seats to hold"
+                        type={this.state.holdSeats === placeholderText.holdSeats ? "text" : "number"}
+                        variant="filled"
+                        value={this.state.holdSeats}
+                        className={classes.textFieldDate}
+                        onChange={this.onHoldSeatsChange}
+                        onFocus={this.shrinkLabel}
+                        onBlur={this.unShrinkLabel}
+                        InputProps={{
+                            classes: {
+                                root: classes.inputPropsDate,
+                            }, 
+                            disableUnderline: true,
+                            inputProps: {
+                                style: this.state.holdSeatsShrink ? inputNativeAfter : inputNativeBeforeDuration,
+                            }
+            
+                        }}
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.inputLabelDate,
+                                focused: classes.inputLabelFocused,
+                                shrink: classes.inputLabelShrink,
+                            },
+                            shrink: this.state.holdSeatsShrink,
+                        }}
+                    />
+                </FormControl>
+
+                <FormControl classes={{root: classes.marginHoldReason}}>
+                    <TextField
+                        id="holdReason"
+                        label="Reason to hold"
+                        type="text"
+                        variant="filled"
+                        value={this.state.holdReason}
+                        className={classes.textFieldDate}
+                        onChange={this.onHoldReasonChange}
+                        onFocus={this.shrinkLabel}
+                        onBlur={this.unShrinkLabel}
+                        InputProps={{
+                            classes: {
+                                root: classes.inputPropsDate,
+                            }, 
+                            disableUnderline: true,
+                            inputProps: {
+                                style: this.state.holdReasonShrink ? inputNativeAfter : inputNativeBeforeDuration,
+                            }
+            
+                        }}
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.inputLabelDate,
+                                focused: classes.inputLabelFocused,
+                                shrink: classes.inputLabelShrink,
+                            },
+                            shrink: this.state.holdReasonShrink,
+                        }}
+                    />
+                </FormControl>
+            </FormGroup>
+          
+
+
           <div style={
                 Object.assign({
                     margin: '59px 0px 25px',
@@ -236,42 +446,144 @@ class PriceDetail extends React.Component {
             <Typography variant="h1" gutterBottom> 
                 Ticket Type
             </Typography>
-            <Typography variant="h4" gutterBottom classes={{ root: classes.typoRoot, }}>
+            <Typography variant="h4" classes={{ root: classes.typoRoot, }}>
                 How many participants can your selected venue fit
             </Typography>
+                <Grid container direction="row">
+                    <FormControl classes={{root: classes.marginTicketType}}>
+                        <TextField
+                            id="ticketType"
+                            label="Type of Ticket"
+                            type="text"
+                            variant="filled"
+                            value={this.state.ticketType}
+                            className={classes.textFieldDate}
+                            onChange={this.onTicketTypeChange}
+                            onFocus={this.shrinkLabel}
+                            onBlur={this.unShrinkLabel}
+                            InputProps={{
+                                classes: {
+                                    root: classes.inputPropsDate,
+                                }, 
+                                disableUnderline: true,
+                                inputProps: {
+                                    style: this.state.ticketTypeShrink ? inputNativeAfter : inputNativeBeforeDuration,
+                                }
+                
+                            }}
+                            InputLabelProps={{
+                                classes: {
+                                    root: classes.inputLabelDate,
+                                    focused: classes.inputLabelFocused,
+                                    shrink: classes.inputLabelShrink,
+                                },
+                                shrink: this.state.ticketTypeShrink,
+                            }}
+                        />
+                    </FormControl>
+                    <FormControl classes={{root: classes.marginPrice}}>
+                        <TextField
+                            id="price"
+                            label="Price (in SGD)"
+                            type={this.state.price === placeholderText.price ? "text" : "number"}
+                            variant="filled"
+                            value={this.state.price}
+                            className={classes.textFieldDate}
+                            onChange={this.onPriceChange}
+                            onFocus={this.shrinkLabel}
+                            onBlur={this.unShrinkLabel}
+                            InputProps={{
+                                classes: {
+                                    root: classes.inputPropsDate,
+                                }, 
+                                disableUnderline: true,
+                                startAdornment: 
+                                this.state.priceShrink && 
+                                    <InputAdornment 
+                                        position="start"
+                                        classes={{positionStart: classes.inputAdornment}}>
+                                        $
+                                    </InputAdornment>,
+                                inputProps: {
+                                    style: this.state.priceShrink ? inputNativeAfter : inputNativeBeforeDuration,
+                                    step: '0.01',
+                                }
+                
+                            }}
+                            InputLabelProps={{
+                                classes: {
+                                    root: classes.inputLabelDate,
+                                    focused: classes.inputLabelFocused,
+                                    shrink: classes.inputLabelShrink,
+                                },
+                                shrink: this.state.priceShrink,
+                            }}
+                        />
+                    </FormControl>
+                    <FormControl required classes={{root: classes.marginPrice}}>
+                        <TextField
+                            id="capacity"
+                            label="Capacity"
+                            type={this.state.capacity === placeholderText.capacity ? "text" : "number"}
+                            variant="filled"
+                            value={this.state.capacity}
+                            className={classes.textFieldDate}
+                            onChange={this.onCapacityChange}
+                            onFocus={this.shrinkLabel}
+                            onBlur={this.unShrinkLabel}
+                            InputProps={{
+                                classes: {
+                                    root: classes.inputPropsDate,
+                                }, 
+                                disableUnderline: true,
+                                inputProps: {
+                                    style: this.state.capacityShrink ? inputNativeAfter : inputNativeBeforeDuration,
+                                }
+                
+                            }}
+                            InputLabelProps={{
+                                classes: {
+                                    root: classes.inputLabelDate,
+                                    focused: classes.inputLabelFocused,
+                                    shrink: classes.inputLabelShrink,
+                                },
+                                shrink: this.state.capacityShrink,
+                            }}
+                        />
+                    </FormControl>
+                </Grid>
+                <Grid container direction="row" justify="flex-end" 
+                    classes={{ root: classes.grid}}>
+                    <Button classes={{
+                        root: classes.typeButton
+                    }}>Add Ticket Type</Button>
+                </Grid>
+                
 
-          <FormControl classes={{root: classes.marginTicketType}}>
-              <TextField
-                id="ticketType"
-                label="Type of Ticket"
-                type="text"
-                variant="filled"
-                value={this.state.ticketType}
-                className={classes.textFieldDate}
-                onChange={this.onTicketTypeChange}
-                onFocus={this.shrinkLabel}
-                onBlur={this.unShrinkLabel}
-                InputProps={{
-                    classes: {
-                        root: classes.inputPropsDate,
-                    }, 
-                    disableUnderline: true,
-                    inputProps: {
-                        style: this.state.ticketTypeShrink ? inputNativeAfter : inputNativeBeforeDuration,
-                    }
-    
-                }}
-                InputLabelProps={{
-                    classes: {
-                        root: classes.inputLabelDate,
-                        focused: classes.inputLabelFocused,
-                        shrink: classes.inputLabelShrink,
-                    },
-                    shrink: this.state.ticketTypeShrink,
-                }}
-            />
-          </FormControl>
 
+
+        <div style={
+                Object.assign({
+                    margin: '38px 0px 25px',
+                }, gradientDiv)}>
+            </div>
+            <Typography variant="h1" gutterBottom> 
+                Ticket Sales Schedule
+            </Typography>
+            <Typography variant="h4" classes={{ root: classes.typoRoot, }}>
+                Manage your ticket sales schedule by setting the start and stop date
+            </Typography>
+
+
+
+            <div style={
+                Object.assign({
+                    margin: '78px 0px 25px',
+                }, gradientDiv)}>
+            </div>
+            <Typography variant="h1" gutterBottom> 
+                Additional Discount & Special Pricing
+            </Typography>
         </div>
       );
     }
