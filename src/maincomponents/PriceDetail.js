@@ -8,6 +8,8 @@ import { Typography } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
+import { ReactComponent as SeatsIcon } from '../../src/assets/images/icons/seats.svg';
+
 const styles = theme => ({
     marginRoot: {
         [theme.breakpoints.up('md')]: {
@@ -36,6 +38,19 @@ const styles = theme => ({
           border: '1px solid #0080C9',
         },
       },
+      inputLabelDate: {
+        fontSize: '16px',
+        color: '#4d4d4d',
+        textDecoration: 'none solid rgb(119, 119, 119)',
+      },
+      inputLabelFocused: {
+        color: '#0080C9 !important',
+        padding: '0px',
+      },
+      typoHoldSeats: {
+        fontSize: '23px',
+        margin: '43px auto 20px',
+      },
 });
 
 const gradientDiv = {
@@ -63,7 +78,8 @@ class PriceDetail extends React.Component {
   constructor(props) {
     super()
     this.state = {
-        venueShrink: false,
+        venueCapShrink: false,
+        ticketTypeShrink: false,
 
         //previous page values
         organiser: props.organiser ? props.organiser : "Not specified",
@@ -76,10 +92,58 @@ class PriceDetail extends React.Component {
         time: props.time ? props.time : "Not specified",
 
         //form values
-        venue: "Maximum 500pax (defined by venue)",
+        venueCap: "Maximum 500pax (defined by venue)",
+        ticketType: "eg. General Admission",
 
     }
+    this.shrinkLabel = this.shrinkLabel.bind(this);
+    this.unShrinkLabel = this.unShrinkLabel.bind(this);
+    this.onVenueCapChange = this.onVenueCapChange.bind(this);
+    this.onTicketTypeChange = this.onTicketTypeChange.bind(this);
   }
+
+    shrinkLabel = (event) => {
+        const { onFocus } = this.props;
+        if (event.target.id === "venueCap") {
+            this.setState({venueCapShrink: true});
+            if(event.target.value === "Maximum 500pax (defined by venue)") {
+                this.setState({venueCap: ""})
+            }
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "ticketType") {
+            this.setState({ticketTypeShrink: true});
+            if(event.target.value === "eg. General Admission") {
+                this.setState({ticketType: ""})
+            }
+            onFocus && onFocus(event); 
+        } 
+    };
+
+    unShrinkLabel = (event) => {
+        const { onBlur } = this.props;
+        
+        if (event.target.id === "venueCap") {
+            if(event.target.value.length === 0) {
+                this.setState({venueCapShrink: false, venueCap: "Maximum 500pax (defined by venue)",})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "ticketType") {
+            if(event.target.value.length === 0) {
+                this.setState({ticketTypeShrink: false, ticketType: "eg. General Admission",})
+            }
+            onBlur && onBlur(event); 
+        } 
+    };
+
+    onVenueCapChange(event) {
+        this.setState({venueCap: event.target.value});
+        this.props.onVenueCapChange(event);
+    }
+
+    onTicketTypeChange(event) {
+        this.setState({ticketType: event.target.value});
+        // this.props.onTicketTypeChange(event);
+    }
 
     render() {
 
@@ -99,7 +163,6 @@ class PriceDetail extends React.Component {
                 //from event schedule
                 dates={this.state.dates}
                 time={this.state.time}
-                time={this.state.time}
               />
 
             <div style={
@@ -110,20 +173,19 @@ class PriceDetail extends React.Component {
             <Typography variant="h1" gutterBottom> 
                 Total Venue Capacity
             </Typography>
-            <Typography variant="h4" classes={{ root: classes.typoRoot, }}>
+            <Typography variant="h4" gutterBottom classes={{ root: classes.typoRoot, }}>
                 How many participants can your selected venue fit
             </Typography>
             
             <FormControl classes={{root: classes.marginRoot}}>
               <TextField
-                id="venue"
-                label="Venue"
+                id="venueCap"
+                label="Venue Capacity"
                 type="text"
                 variant="filled"
-                value={this.state.venue}
-                // inputRef={el => this.date = el}
+                value={this.state.venueCap}
                 className={classes.textFieldDate}
-                onChange={this.onStartDateChange}
+                onChange={this.onVenueCapChange}
                 onFocus={this.shrinkLabel}
                 onBlur={this.unShrinkLabel}
                 InputProps={{
@@ -132,7 +194,7 @@ class PriceDetail extends React.Component {
                     }, 
                     disableUnderline: true,
                     inputProps: {
-                        style: this.state.venueShrink ? inputNativeAfter : inputNativeBeforeDuration,
+                        style: this.state.venueCapShrink ? inputNativeAfter : inputNativeBeforeDuration,
                     }
     
                 }}
@@ -142,7 +204,46 @@ class PriceDetail extends React.Component {
                         focused: classes.inputLabelFocused,
                         shrink: classes.inputLabelShrink,
                     },
-                    shrink: this.state.durationShrink,
+                    shrink: this.state.venueCapShrink,
+                }}
+            />
+          </FormControl>
+          <Typography
+            classes={{
+                root: classes.typoHoldSeats
+            }}
+          >
+            <SeatsIcon /> Need to put some seats on hold?
+          </Typography>
+
+          <FormControl classes={{root: classes.marginRoot}}>
+              <TextField
+                id="ticketType"
+                label="Type of Ticket"
+                type="text"
+                variant="filled"
+                value={this.state.ticketType}
+                className={classes.textFieldDate}
+                onChange={this.onTicketTypeChange}
+                onFocus={this.shrinkLabel}
+                onBlur={this.unShrinkLabel}
+                InputProps={{
+                    classes: {
+                        root: classes.inputPropsDate,
+                    }, 
+                    disableUnderline: true,
+                    inputProps: {
+                        style: this.state.ticketTypeShrink ? inputNativeAfter : inputNativeBeforeDuration,
+                    }
+    
+                }}
+                InputLabelProps={{
+                    classes: {
+                        root: classes.inputLabelDate,
+                        focused: classes.inputLabelFocused,
+                        shrink: classes.inputLabelShrink,
+                    },
+                    shrink: this.state.ticketTypeShrink,
                 }}
             />
           </FormControl>

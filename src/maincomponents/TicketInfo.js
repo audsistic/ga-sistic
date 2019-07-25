@@ -225,10 +225,16 @@ class TicketInfo extends React.Component {
     shrinkLabel = (event) => {
       const { onFocus } = this.props;
       if(event.target.id === "organiser"){
-        this.setState({orgShrink: true, organiser: "",});
+        this.setState({orgShrink: true});
+        if(event.target.value === "Tell the patrons who is organising the event") {
+          this.setState({organiser: ""})
+        }
         onFocus && onFocus(event); 
       } else if (event.target.id === "eventName") {
-        this.setState({eventNameShrink: true, eventName: "",});
+        this.setState({eventNameShrink: true});
+        if(event.target.value === "Tell the patrons who is organising the event") {
+          this.setState({eventName: ""})
+        }
         onFocus && onFocus(event); 
       } else if (event.target.id === "venueName") {
         this.setState({venueNameLabel: "Venue Name",});

@@ -100,6 +100,9 @@ class SummaryPage extends React.Component {
       dates: "",
       time: "",
       duration: "",
+
+      //price detail
+      venueCap: "",
     }
     this.handleTabChange = this.handleTabChange.bind(this);
     this.handleTypeChange = this.handleTypeChange.bind(this);
@@ -108,6 +111,7 @@ class SummaryPage extends React.Component {
     this.handleCheckChange = this.handleCheckChange.bind(this);
     this.onVenueNameChange = this.onVenueNameChange.bind(this);
     this.onVenueAddressChange = this.onVenueAddressChange.bind(this);
+    this.onVenueCapChange = this.onVenueCapChange.bind(this);
   }
 
     handleTabChange(event, newValue) {
@@ -139,6 +143,11 @@ class SummaryPage extends React.Component {
         this.setState({venueAddress: event.target.value})
     }
 
+    onVenueCapChange(event) {
+      this.setState({venueCap: event.target.value})
+  }
+
+
     render() {
       const { classes } = this.props;
       return (
@@ -168,6 +177,7 @@ class SummaryPage extends React.Component {
                 { this.state.activeIndex === 0 && 
                   <TabContainer>
                     <TicketInfoComponent 
+                      //actions
                       onOrganiserChange={this.onOrganiserChange}
                       onEventNameChange={this.onEventNameChange}
                       handleTypeChange={this.handleTypeChange}
@@ -191,6 +201,9 @@ class SummaryPage extends React.Component {
                   </TabContainer> }
                 { this.state.activeIndex === 2 && <TabContainer>
                     <PriceDetail 
+                      //actions
+                      onVenueCapChange={this.onVenueCapChange}
+
                       //from ticket info
                       organiser={this.state.organiser} 
                       eventName={this.state.eventName}

@@ -133,6 +133,7 @@ class EventSchedule extends React.Component {
     this.shrinkLabel = this.shrinkLabel.bind(this);
     this.unShrinkLabel = this.unShrinkLabel.bind(this);
     this.onStartDateChange = this.onStartDateChange.bind(this);
+    this.onDurationChange = this.onDurationChange.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
   }
 
@@ -145,7 +146,10 @@ class EventSchedule extends React.Component {
             this.setState({timeShrink: true});
             onFocus && onFocus(event); 
         } else if (event.target.id === "duration") {
-            this.setState({durationShrink: true, duration: "",});
+            this.setState({durationShrink: true});
+            if(event.target.value === "Eg. Approximately 1 hr") {
+                this.setState({duration: ""})
+            }
             onFocus && onFocus(event); 
         }
     };
@@ -172,8 +176,12 @@ class EventSchedule extends React.Component {
     };
 
     onStartDateChange(event) {
-        this.setState({ startDate: moment(event.target.value).format('LL') })
+        this.setState({ startDate: moment(event.target.value).format("MM-DD-YYYY") })
     };
+
+    onDurationChange(event) {
+        this.setState({ duration: event.target.value })
+    }
 
     handleModalClose() {
         this.setState({open: false});
@@ -295,7 +303,7 @@ class EventSchedule extends React.Component {
                 value={this.state.duration}
                 // inputRef={el => this.date = el}
                 className={classes.textFieldDate}
-                onChange={this.onStartDateChange}
+                onChange={this.onDurationChange}
                 onFocus={this.shrinkLabel}
                 onBlur={this.unShrinkLabel}
                 InputProps={{
