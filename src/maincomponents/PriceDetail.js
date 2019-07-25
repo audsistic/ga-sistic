@@ -23,6 +23,18 @@ const styles = theme => ({
             maxWidth: '373px',
         },
     },
+    marginTicketType: {
+        [theme.breakpoints.up('md')]: {
+            margin: '7.5px 5.5px 0px 0px',
+            width: '26.805556vw',
+            maxWidth: '386px',
+          },
+          [theme.breakpoints.down('sm')]: {
+              margin: '7.5px 0px',
+              width: '90.09661vw',
+              maxWidth: '373px',
+          },
+    },
     textFieldDate: {
         border: '1px solid #E7E7E7',
         boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
@@ -215,8 +227,20 @@ class PriceDetail extends React.Component {
           >
             <SeatsIcon /> Need to put some seats on hold?
           </Typography>
+        
+          <div style={
+                Object.assign({
+                    margin: '59px 0px 25px',
+                }, gradientDiv)}>
+            </div>
+            <Typography variant="h1" gutterBottom> 
+                Ticket Type
+            </Typography>
+            <Typography variant="h4" gutterBottom classes={{ root: classes.typoRoot, }}>
+                How many participants can your selected venue fit
+            </Typography>
 
-          <FormControl classes={{root: classes.marginRoot}}>
+          <FormControl classes={{root: classes.marginTicketType}}>
               <TextField
                 id="ticketType"
                 label="Type of Ticket"
