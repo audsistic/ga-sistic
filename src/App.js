@@ -43,7 +43,8 @@ const useStyles = makeStyles(theme => ({
   toolbarBottom: {
     background: '#FFFFFF',
     minHeight: '81px',
-    position: 'relative',
+    position: 'sticky',
+    top: 0,
   },
   sisticLogo: {
     width: "93px", 
@@ -54,6 +55,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       marginLeft: '18px', 
     },
+  },
+  appbarBottom: {
+    top: 0,
   }
 
 }));
@@ -99,7 +103,7 @@ function App() {
       <div className="main">
 
           <div className={classes.root}>
-            <AppBar position="fixed">
+            <AppBar position="static">
               <Toolbar 
                 className="row no-gutters justify-content-end"
                 classes={{
@@ -121,6 +125,8 @@ function App() {
                   </div>
                 </div>
               </Toolbar>
+              </AppBar>
+              <AppBar position="sticky" classes={{positionSticky: classes.appbarBottom}}>
               <Toolbar
                 classes={{
                   root: classes.toolbarBottom

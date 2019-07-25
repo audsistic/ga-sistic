@@ -113,7 +113,7 @@ class ProgressSummary extends React.Component {
                             height: '149px',
                             width: '230px',
                         }}>
-                            <GoogleMap venueName={ this.state.venueName } />
+                            {/* <GoogleMap venueName={ this.state.venueName } /> */}
                         </div>
                     </Grid>
                 </div>
@@ -133,7 +133,7 @@ class ProgressSummary extends React.Component {
                             height: '149px',
                             width: '100%',
                         }}>
-                            <GoogleMap venueName={ this.state.venueName } />
+                            {/* <GoogleMap venueName={ this.state.venueName } /> */}
                         </div>
                 </Grid>
             </div>

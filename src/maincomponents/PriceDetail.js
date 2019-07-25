@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 import { ReactComponent as SeatsIcon } from '../../src/assets/images/icons/seats.svg';
+import { ReactComponent as CalendarIcon } from '../../src/assets/images/icons/calendar.svg';
 
 const styles = theme => ({
     marginVenueCap: {
@@ -75,6 +76,18 @@ const styles = theme => ({
               maxWidth: '373px',
           },
     },
+    marginDate: {
+        [theme.breakpoints.up('md')]: {
+            margin: '18px 19px 0px 0px',
+            width: '27.916667vw',
+            maxWidth: '402px',
+          },
+          [theme.breakpoints.down('sm')]: {
+              margin: '7.5px 0px',
+              width: '90.09661vw',
+              maxWidth: '373px',
+          },
+    },
     textFieldDate: {
         border: '1px solid #E7E7E7',
         boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
@@ -107,14 +120,13 @@ const styles = theme => ({
       typeButton: {
         color: 'white',
         backgroundColor: '#0080c9',
-        width: '222px',
         height: '56px',
         borderRadius: '0px',
         '&:hover': {
           background: theme.palette.primary.dark,
         },
         [theme.breakpoints.up('md')]: {
-          width: '222px',
+          width: '187px',
         },
         [theme.breakpoints.down('sm')]: {
           width: '134px',
@@ -130,6 +142,13 @@ const gradientDiv = {
     background: 'linear-gradient(to right, #0080C9, #C86DD7)',
     height: '5px',
     width: '100px',
+}
+
+const inputNativeBefore = {
+    fontSize: '11px',
+    textTransform: 'uppercase',
+    color: '#A1A1A1',
+    paddingTop: '32px',
 }
 
 const inputNativeBeforeDuration = {
@@ -165,6 +184,7 @@ class PriceDetail extends React.Component {
         ticketTypeShrink: false,
         priceShrink: false,
         capacityShrink: false,
+        startDateShrink: false,
 
         //previous page values
         organiser: props.organiser ? props.organiser : "Not specified",
@@ -183,6 +203,8 @@ class PriceDetail extends React.Component {
         ticketType: placeholderText.ticketType,
         price: placeholderText.price,
         capacity: placeholderText.capacity,
+        startDate: new Date(),
+    
         
     }
 
@@ -234,6 +256,9 @@ class PriceDetail extends React.Component {
                 this.setState({capacity: ""})
             }
             onFocus && onFocus(event); 
+        } else if (event.target.id === "startDate") {
+            this.setState({startDateShrink: true});
+            onFocus && onFocus(event); 
         } 
     };
 
@@ -268,6 +293,11 @@ class PriceDetail extends React.Component {
         } else if (event.target.id === "capacity") {
             if(event.target.value.length === 0) {
                 this.setState({capacityShrink: false, capacity: placeholderText.capacity,})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "startDate") {
+            if(event.target.value.length === 0) {
+                this.setState({startDateShrink: false})
             }
             onBlur && onBlur(event); 
         } 
@@ -527,6 +557,7 @@ class PriceDetail extends React.Component {
                             type={this.state.capacity === placeholderText.capacity ? "text" : "number"}
                             variant="filled"
                             value={this.state.capacity}
+                            defaultValue="eg. 100"
                             className={classes.textFieldDate}
                             onChange={this.onCapacityChange}
                             onFocus={this.shrinkLabel}
@@ -573,6 +604,46 @@ class PriceDetail extends React.Component {
             <Typography variant="h4" classes={{ root: classes.typoRoot, }}>
                 Manage your ticket sales schedule by setting the start and stop date
             </Typography>
+
+            <FormControl classes={{root: classes.marginDate}}>
+              <TextField
+                id="startDate"
+                label="Start Date"
+                type="date"
+                variant="filled"
+                defaultValue="DD-MM-YYYY"
+                // inputRef={el => this.date = el}
+                className={classes.textFieldDate}
+                onChange={this.onStartDateChange}
+                onFocus={this.shrinkLabel}
+                onBlur={this.unShrinkLabel}
+                InputProps={{
+                    classes: {
+                        root: classes.inputPropsDate,
+                    }, 
+                    disableUnderline: true,
+                    endAdornment: 
+                    !this.state.startDateShrink && 
+                        <InputAdornment 
+                            position="end"
+                            classes={{positionEnd: classes.inputAdornment}}>
+                            <CalendarIcon fill="#000000" />
+                        </InputAdornment>,
+                    inputProps: {
+                        style: this.state.startDateShrink ? inputNativeAfter : inputNativeBefore,
+                    }
+    
+                }}
+                InputLabelProps={{
+                    classes: {
+                        root: classes.inputLabelDate,
+                        focused: classes.inputLabelFocused,
+                        shrink: classes.inputLabelShrink,
+                    },
+                    shrink: this.state.startDateShrink,
+                }}
+            />
+          </FormControl>
 
 
 
