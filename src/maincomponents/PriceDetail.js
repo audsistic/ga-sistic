@@ -557,7 +557,6 @@ class PriceDetail extends React.Component {
                             type={this.state.capacity === placeholderText.capacity ? "text" : "number"}
                             variant="filled"
                             value={this.state.capacity}
-                            defaultValue="eg. 100"
                             className={classes.textFieldDate}
                             onChange={this.onCapacityChange}
                             onFocus={this.shrinkLabel}

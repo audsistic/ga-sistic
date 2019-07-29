@@ -24,10 +24,10 @@ const styles = theme => ({
   container: {
     width: 'initial',
     [theme.breakpoints.up('md')]: {
-      margin: '185px 72px 0 72px',
+      margin: '50px 72px 0 72px',
     },
     [theme.breakpoints.down('sm')]: {
-      margin: '136px 4px 0px 4px',
+      margin: '40px 4px 0px 4px',
     },
   }, 
   buttonContainer: {
