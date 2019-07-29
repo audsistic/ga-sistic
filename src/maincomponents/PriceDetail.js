@@ -14,6 +14,9 @@ import Grid from '@material-ui/core/Grid';
 
 import { ReactComponent as SeatsIcon } from '../../src/assets/images/icons/seats.svg';
 import { ReactComponent as CalendarIcon } from '../../src/assets/images/icons/calendar.svg';
+import { ReactComponent as ClockIcon } from '../../src/assets/images/icons/clock_icon.svg';
+import { ReactComponent as DiscountIcon } from '../../src/assets/images/icons/discount.svg';
+import { ReactComponent as ScheduleIcon } from '../../src/assets/images/icons/schedule.svg';
 
 const styles = theme => ({
     marginVenueCap: {
@@ -88,6 +91,18 @@ const styles = theme => ({
               maxWidth: '373px',
           },
     },
+    marginTime: {
+        [theme.breakpoints.up('md')]: {
+            margin: '18px 19px 0px 0px',
+            width: '21.388889vw',
+            maxWidth: '308px',
+          },
+          [theme.breakpoints.down('sm')]: {
+              margin: '7.5px 0px',
+              width: '90.09661vw',
+              maxWidth: '373px',
+          },
+    },
     textFieldDate: {
         border: '1px solid #E7E7E7',
         boxShadow: '0px 2px 4px rgba(219, 219, 219, 0.5)',
@@ -135,7 +150,27 @@ const styles = theme => ({
     grid: {
         maxWidth: '723px',
         marginTop: '16px',
-    }
+    },
+    buttonDiscount: {
+        borderRadius: '18px',
+        width: '198px',
+        color: '#4a4a4a',
+        fontSize: '16px',
+        '&:hover': {
+            background: theme.palette.primary.dark,
+            color: '#ffffff',
+          },
+    },
+    buttonSpecial: {
+        borderRadius: '18px',
+        width: '278px',
+        color: '#4a4a4a',
+        fontSize: '16px',
+        '&:hover': {
+            background: theme.palette.primary.dark,
+            color: '#ffffff',
+          },
+    },
 });
 
 const gradientDiv = {
@@ -164,6 +199,19 @@ const inputNativeAfter = {
     paddingTop: '32px',
 }
 
+const buttonHeader = {
+    fontSize: '16px',
+    fontFamily: 'Open Sans-Bold',
+    fontWeight: 700,
+    color: '#404040',
+    minWidth: '272px',
+    maxWidth: '289px',
+    marginBottom: '18px',
+}
+
+
+
+//Placeholer texts for inputs
 const placeholderText = {
     venueCap: "Maximum 500pax (defined by venue)",
     holdSeats: "0-500",
@@ -172,6 +220,7 @@ const placeholderText = {
     price: "eg. 4.50",
     capacity: "eg. 100",
 }
+
 class PriceDetail extends React.Component {
 
 
@@ -185,6 +234,13 @@ class PriceDetail extends React.Component {
         priceShrink: false,
         capacityShrink: false,
         startDateShrink: false,
+        startTimeShrink: false,
+        stopDateShrink: false,
+        stopTimeShrink: false,
+
+        //button hovering
+        discountHover: false,
+        specialHover: false,
 
         //previous page values
         organiser: props.organiser ? props.organiser : "Not specified",
@@ -204,8 +260,10 @@ class PriceDetail extends React.Component {
         price: placeholderText.price,
         capacity: placeholderText.capacity,
         startDate: new Date(),
+        startTime: "",
+        stopDate: new Date(),
+        stopTime: "",
     
-        
     }
 
     this.shrinkLabel = this.shrinkLabel.bind(this);
@@ -259,6 +317,15 @@ class PriceDetail extends React.Component {
         } else if (event.target.id === "startDate") {
             this.setState({startDateShrink: true});
             onFocus && onFocus(event); 
+        } else if (event.target.id === "startTime") {
+            this.setState({startTimeShrink: true});
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "stopDate") {
+            this.setState({stopDateShrink: true});
+            onFocus && onFocus(event); 
+        } else if (event.target.id === "stopTime") {
+            this.setState({stopTimeShrink: true});
+            onFocus && onFocus(event); 
         } 
     };
 
@@ -298,6 +365,21 @@ class PriceDetail extends React.Component {
         } else if (event.target.id === "startDate") {
             if(event.target.value.length === 0) {
                 this.setState({startDateShrink: false})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "startTime") {
+            if(event.target.value.length === 0) {
+                this.setState({startTimeShrink: false})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "stopDate") {
+            if(event.target.value.length === 0) {
+                this.setState({stopDateShrink: false})
+            }
+            onBlur && onBlur(event); 
+        } else if (event.target.id === "stopTime") {
+            if(event.target.value.length === 0) {
+                this.setState({stopTimeShrink: false})
             }
             onBlur && onBlur(event); 
         } 
@@ -582,16 +664,13 @@ class PriceDetail extends React.Component {
                         />
                     </FormControl>
                 </Grid>
-                <Grid container direction="row" justify="flex-end" 
-                    classes={{ root: classes.grid}}>
-                    <Button classes={{
-                        root: classes.typeButton
-                    }}>Add Ticket Type</Button>
-                </Grid>
+            <Grid container direction="row" justify="flex-end" 
+                classes={{ root: classes.grid}}>
+                <Button classes={{
+                    root: classes.typeButton
+                }}>Add Ticket Type</Button>
+            </Grid>
                 
-
-
-
         <div style={
                 Object.assign({
                     margin: '38px 0px 25px',
@@ -603,48 +682,168 @@ class PriceDetail extends React.Component {
             <Typography variant="h4" classes={{ root: classes.typoRoot, }}>
                 Manage your ticket sales schedule by setting the start and stop date
             </Typography>
+            <Grid container direction="row">
+                <FormControl classes={{root: classes.marginDate}}>
+                    <TextField
+                        id="startDate"
+                        label="Start Date"
+                        type="date"
+                        variant="filled"
+                        defaultValue="DD-MM-YYYY"
+                        // inputRef={el => this.date = el}
+                        className={classes.textFieldDate}
+                        onChange={this.onStartDateChange}
+                        onFocus={this.shrinkLabel}
+                        onBlur={this.unShrinkLabel}
+                        InputProps={{
+                            classes: {
+                                root: classes.inputPropsDate,
+                            }, 
+                            disableUnderline: true,
+                            endAdornment: 
+                            !this.state.startDateShrink && 
+                                <InputAdornment 
+                                    position="end"
+                                    classes={{positionEnd: classes.inputAdornment}}>
+                                    <CalendarIcon fill="#000000" />
+                                </InputAdornment>,
+                            inputProps: {
+                                style: this.state.startDateShrink ? inputNativeAfter : inputNativeBefore,
+                            }
+            
+                        }}
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.inputLabelDate,
+                                focused: classes.inputLabelFocused,
+                                shrink: classes.inputLabelShrink,
+                            },
+                            shrink: this.state.startDateShrink,
+                        }}
+                    />
+                </FormControl>
+                <FormControl classes={{root: classes.marginTime}}>
+                    <TextField
+                        id="startTime"
+                        label="Start Time"
+                        type="time"
+                        variant="filled"
+                        defaultValue="Hour: Min"
+                        // inputRef={el => this.date = el}
+                        className={classes.textFieldDate}
+                        onChange={this.onStartDateChange}
+                        onFocus={this.shrinkLabel}
+                        onBlur={this.unShrinkLabel}
+                        InputProps={{
+                            classes: {
+                                root: classes.inputPropsDate,
+                            }, 
+                            disableUnderline: true,
+                            endAdornment: 
+                            !this.state.startTimeShrink && 
+                                <InputAdornment 
+                                    position="end"
+                                    classes={{positionEnd: classes.inputAdornment}}>
+                                    <ClockIcon />
+                                </InputAdornment>,
+                            inputProps: {
+                                style: this.state.startTimeShrink ? inputNativeAfter : inputNativeBefore,
+                            }
+            
+                        }}
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.inputLabelDate,
+                                focused: classes.inputLabelFocused,
+                                shrink: classes.inputLabelShrink,
+                            },
+                            shrink: this.state.startTimeShrink,
+                        }}
+                    />
+                </FormControl>
+            </Grid>
+            
 
-            <FormControl classes={{root: classes.marginDate}}>
-              <TextField
-                id="startDate"
-                label="Start Date"
-                type="date"
-                variant="filled"
-                defaultValue="DD-MM-YYYY"
-                // inputRef={el => this.date = el}
-                className={classes.textFieldDate}
-                onChange={this.onStartDateChange}
-                onFocus={this.shrinkLabel}
-                onBlur={this.unShrinkLabel}
-                InputProps={{
-                    classes: {
-                        root: classes.inputPropsDate,
-                    }, 
-                    disableUnderline: true,
-                    endAdornment: 
-                    !this.state.startDateShrink && 
-                        <InputAdornment 
-                            position="end"
-                            classes={{positionEnd: classes.inputAdornment}}>
-                            <CalendarIcon fill="#000000" />
-                        </InputAdornment>,
-                    inputProps: {
-                        style: this.state.startDateShrink ? inputNativeAfter : inputNativeBefore,
-                    }
-    
-                }}
-                InputLabelProps={{
-                    classes: {
-                        root: classes.inputLabelDate,
-                        focused: classes.inputLabelFocused,
-                        shrink: classes.inputLabelShrink,
-                    },
-                    shrink: this.state.startDateShrink,
-                }}
-            />
-          </FormControl>
-
-
+            <Grid container direction="row">
+                <FormControl classes={{root: classes.marginDate}}>
+                    <TextField
+                        id="stopDate"
+                        label="Stop Date"
+                        type="date"
+                        variant="filled"
+                        defaultValue="DD-MM-YYYY"
+                        // inputRef={el => this.date = el}
+                        className={classes.textFieldDate}
+                        onChange={this.onStartDateChange}
+                        onFocus={this.shrinkLabel}
+                        onBlur={this.unShrinkLabel}
+                        InputProps={{
+                            classes: {
+                                root: classes.inputPropsDate,
+                            }, 
+                            disableUnderline: true,
+                            endAdornment: 
+                            !this.state.stopDateShrink && 
+                                <InputAdornment 
+                                    position="end"
+                                    classes={{positionEnd: classes.inputAdornment}}>
+                                    <CalendarIcon fill="#000000" />
+                                </InputAdornment>,
+                            inputProps: {
+                                style: this.state.stopDateShrink ? inputNativeAfter : inputNativeBefore,
+                            }
+            
+                        }}
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.inputLabelDate,
+                                focused: classes.inputLabelFocused,
+                                shrink: classes.inputLabelShrink,
+                            },
+                            shrink: this.state.stopDateShrink,
+                        }}
+                    />
+                </FormControl>
+                <FormControl classes={{root: classes.marginTime}}>
+                    <TextField
+                        id="stopTime"
+                        label="Stop Time"
+                        type="time"
+                        variant="filled"
+                        defaultValue="Hour: Min"
+                        // inputRef={el => this.date = el}
+                        className={classes.textFieldDate}
+                        onChange={this.onStartDateChange}
+                        onFocus={this.shrinkLabel}
+                        onBlur={this.unShrinkLabel}
+                        InputProps={{
+                            classes: {
+                                root: classes.inputPropsDate,
+                            }, 
+                            disableUnderline: true,
+                            endAdornment: 
+                            !this.state.stopTimeShrink && 
+                                <InputAdornment 
+                                    position="end"
+                                    classes={{positionEnd: classes.inputAdornment}}>
+                                    <ClockIcon />
+                                </InputAdornment>,
+                            inputProps: {
+                                style: this.state.stopTimeShrink ? inputNativeAfter : inputNativeBefore,
+                            }
+            
+                        }}
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.inputLabelDate,
+                                focused: classes.inputLabelFocused,
+                                shrink: classes.inputLabelShrink,
+                            },
+                            shrink: this.state.stopTimeShrink,
+                        }}
+                    />
+                </FormControl>
+            </Grid>
 
             <div style={
                 Object.assign({
@@ -654,6 +853,46 @@ class PriceDetail extends React.Component {
             <Typography variant="h1" gutterBottom> 
                 Additional Discount & Special Pricing
             </Typography>
+                <Grid container direction="row">
+                    <Grid item xs={6}>
+                        <div style={buttonHeader}>
+                            Need to set up special discount like Early Bird Specials?
+                        </div>
+                        <Button 
+                            onMouseOver={() => this.setState({discountHover: true})}
+                            onMouseLeave={() => this.setState({discountHover: false})}
+                            onClick={()=>this.setState({open: true})}
+                            variant="outlined" 
+                            classes={{
+                                root: classes.buttonDiscount,
+                                }}>
+                            <DiscountIcon 
+                                style={{ marginRight: '5px', }} 
+                                fill={this.state.discountHover ? "#ffffff" : "#4a4a4a"}
+                                /> Set Up Discount
+                        </Button>
+                    </Grid>
+                        
+                    <Grid item xs={6}>
+                    <div style={buttonHeader}>
+                        Set up special price on specific day and time?
+                    </div>
+                        <Button 
+                        onMouseOver={() => this.setState({specialHover: true})}
+                        onMouseLeave={() => this.setState({specialHover: false})}
+                        onClick={()=>this.setState({open: true})}
+                        variant="outlined" 
+                        classes={{
+                            root: classes.buttonSpecial,
+                            }}>
+                        <ScheduleIcon 
+                            style={{ marginRight: '5px', }} 
+                            fill={this.state.specialHover ? "#ffffff" : "#4a4a4a"}
+                            /> Set Up Special Ticket Price
+                        </Button>
+                    </Grid>
+                </Grid>
+                
         </div>
       );
     }
