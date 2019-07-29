@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ProgressSummary from '../subcomponents/ProgressSummary';
+import ModalDiscount from '../subcomponents/ModalDiscount';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
@@ -238,9 +239,11 @@ class PriceDetail extends React.Component {
         stopDateShrink: false,
         stopTimeShrink: false,
 
-        //button hovering
+        //discount & pricing button/modal
         discountHover: false,
         specialHover: false,
+        discountOpen: true,
+        specialOpen: false,
 
         //previous page values
         organiser: props.organiser ? props.organiser : "Not specified",
@@ -274,6 +277,8 @@ class PriceDetail extends React.Component {
     this.onTicketTypeChange = this.onTicketTypeChange.bind(this);
     this.onPriceChange = this.onPriceChange.bind(this);
     this.onCapacityChange = this.onCapacityChange.bind(this);
+
+    this.handleDiscountModalClose = this.handleDiscountModalClose.bind(this);
   }
 
     shrinkLabel = (event) => {
@@ -409,6 +414,10 @@ class PriceDetail extends React.Component {
 
     onCapacityChange(event) {
         this.setState({capacity: event.target.value});
+    }
+
+    handleDiscountModalClose() {
+        this.setState({discountOpen: false});
     }
 
     render() {
@@ -861,7 +870,7 @@ class PriceDetail extends React.Component {
                         <Button 
                             onMouseOver={() => this.setState({discountHover: true})}
                             onMouseLeave={() => this.setState({discountHover: false})}
-                            onClick={()=>this.setState({open: true})}
+                            onClick={()=>this.setState({discountOpen: true})}
                             variant="outlined" 
                             classes={{
                                 root: classes.buttonDiscount,
@@ -892,7 +901,7 @@ class PriceDetail extends React.Component {
                         </Button>
                     </Grid>
                 </Grid>
-                
+                <ModalDiscount open={this.state.discountOpen} handleDiscountModalClose={this.handleDiscountModalClose} />
         </div>
       );
     }

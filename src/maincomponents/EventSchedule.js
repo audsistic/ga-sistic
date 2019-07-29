@@ -186,7 +186,7 @@ class EventSchedule extends React.Component {
     handleModalClose() {
         this.setState({open: false});
     }
-
+    
     render() {
 
       const { classes } = this.props;
