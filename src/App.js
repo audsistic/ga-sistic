@@ -55,9 +55,6 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       marginLeft: '18px', 
     },
-  },
-  appbarBottom: {
-    top: 0,
   }
 
 }));
@@ -125,8 +122,6 @@ function App() {
                   </div>
                 </div>
               </Toolbar>
-              </AppBar>
-              <AppBar position="sticky" classes={{positionSticky: classes.appbarBottom}}>
               <Toolbar
                 classes={{
                   root: classes.toolbarBottom
