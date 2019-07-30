@@ -198,10 +198,14 @@ class Inputs extends React.Component {
       shrink: false,
       dateShrink: false,
       emailShrink: false,
+      mobileShrink: false,
       type: "",
+      countryCode: "",
+      mobile: "",
     }
 
     this.handleChange = this.handleChange.bind(this);
+    this.onMobileChange = this.onMobileChange.bind(this);
   }
 
     handleChange(event) {
@@ -218,6 +222,9 @@ class Inputs extends React.Component {
         onFocus && onFocus(event); 
       } else if (event.target.id === "email") {
         this.setState({emailShrink: true});
+        onFocus && onFocus(event); 
+      } else if (event.target.id === "mobile") {
+        this.setState({mobileShrink: true});
         onFocus && onFocus(event); 
       }
     };
@@ -240,9 +247,18 @@ class Inputs extends React.Component {
               this.setState({emailShrink: false})
           }
           onBlur && onBlur(event); 
+          } else if (event.target.id === "mobile") {
+            if(event.target.value.length === 0) {
+                this.setState({mobileShrink: false})
+            }
+          onBlur && onBlur(event); 
           }
     };
 
+    onMobileChange(e) {
+      this.setState({mobile: e.target.value});
+
+    }
 
     render() {
 
@@ -423,25 +439,38 @@ class Inputs extends React.Component {
             />
           </FormControl>
 
+
           <FormControl classes={{root: classes.marginRoot}}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search with venue address, venue name"
-                classes={{
-                  root: classes.textField,
-                  input: classes.inputInput,
-                }}
-                
-                inputProps={{ 
-                  'aria-label': 'Search',
-                  classes: {
-                    root: classes.searchRoot
-                  }
-                 }}
-              />
+            
+            <TextField
+              id="mobile"
+              label="Mobile"
+              type="tel"
+              className={classes.textField}
+              margin="normal"
+              variant="filled"
+              value={this.state.mobile}
+              onChange={this.onMobileChange}
+              onFocus={this.shrinkLabel}
+              onBlur={this.unShrinkLabel}
+              InputProps={{
+                classes: {
+                  root: classes.inputProps,
+                }, 
+                disableUnderline: true,
+              }}
+              InputLabelProps={{
+                classes: {
+                  root: classes.inputLabelEmail,
+                  focused: classes.inputLabelFocused,
+                  shrink: classes.inputLabelShrink,
+                },
+                shrink: this.state.mobileShrink,
+              }}
+              
+            />
           </FormControl>
+
         </div>
       );
     }

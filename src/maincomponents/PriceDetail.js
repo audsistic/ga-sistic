@@ -242,7 +242,7 @@ class PriceDetail extends React.Component {
         //discount & pricing button/modal
         discountHover: false,
         specialHover: false,
-        discountOpen: true,
+        discountOpen: false,
         specialOpen: false,
 
         //previous page values
