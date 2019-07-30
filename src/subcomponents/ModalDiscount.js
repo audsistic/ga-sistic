@@ -246,6 +246,7 @@ class ModalDiscount extends Component {
             stopDate: "",
 
             discountGroup: [],
+            editGroup: "",
         }
 
         this.shrinkLabel = this.shrinkLabel.bind(this);
@@ -376,21 +377,31 @@ class ModalDiscount extends Component {
 
     editDiscount(e) {
         let discounts = [...this.state.discountGroup];
-        let chosen = discounts[e.target.id];
-        console.log(chosen);
-        // this.setState({
-        //     ticketType: chosen.ticketType,
-        //     price: chosen.price,
-        //     discount: chosen.discount,
-        //     startDate: chosen.startDate,
-        //     stopDate: chosen.stopDate
-        // })
+        let item = discounts.splice(e.target.id, 1);
+        let removed = item[0];
+
+        this.setState({discountGroup: discounts, editGroup: removed,});
+       
+        if (this.state.editGroup.ticketType) {
+            console.log("editGroup", this.state.editGroup);
+            this.setState({
+                ticketType: this.state.editGroup.ticketType,    
+                price: this.state.editGroup.price,
+                discount: this.state.editGroup.discount,
+                startDate: this.state.editGroup.startDate,
+                stopDate: this.state.editGroup.stopDate,
+                ticketTypeShrink: true,
+                priceShrink: true,
+                discountShrink: true,
+                startDateShrink: true,
+                stopDateShrink: true,
+            })
+        }
     }
 
     render() {
 
         const { classes } = this.props;
-
         return (
             <Dialog
                 onClose={this.handleClose}
@@ -431,7 +442,6 @@ class ModalDiscount extends Component {
                     <form 
                         onSubmit={(e) => {
                             e.preventDefault();
-                            console.log(e);
                             this.addDiscount();
                         }  
                     }>
