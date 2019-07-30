@@ -12,6 +12,7 @@
     "clsx": "^1.0.4",
     "google-map-react": "^1.1.4",
     "jquery": "^3.4.1",
+    "libphonenumber-js": "^1.7.21",
     "moment": "^2.24.0",
     "popper.js": "^1.15.0",
     "react": "^16.8.6",

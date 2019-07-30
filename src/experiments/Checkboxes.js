@@ -132,8 +132,8 @@ class Checkboxes extends React.Component {
             {this.state.events.map((ev, index) => {
 
               return (
-                <FormGroup row>
-                  <div style={eventDate}>{ev.date}</div>
+                <FormGroup key={index} row>
+                  <div key={index} style={eventDate}>{ev.date}</div>
                   {ev.timings.map( (time, index) => {
                     
                       return (

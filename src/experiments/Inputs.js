@@ -2,14 +2,14 @@ import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js'
+
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import InputBase from '@material-ui/core/InputBase';
-import { ReactComponent as SearchIcon } from '../../src/assets/images/icons/search.svg';
 
 const styles = theme => ({
   marginRoot: {
@@ -202,6 +202,7 @@ class Inputs extends React.Component {
       type: "",
       countryCode: "",
       mobile: "",
+      validity: false,
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -256,8 +257,31 @@ class Inputs extends React.Component {
     };
 
     onMobileChange(e) {
-      this.setState({mobile: e.target.value});
+      let newNumber = new AsYouType().input(e.target.value)
+      this.setState({mobile: newNumber});
 
+      //Getting country code and number
+      let enteredNumber = e.target.value.toString();
+      if (enteredNumber.charAt(0) !== "+") {
+        this.setState(prevState => ({
+          mobile: "+" + prevState.mobile
+        }))
+      } else {
+        this.setState({mobile: newNumber});
+      }
+
+      let completeNumber = this.state.mobile.toString();
+      const phoneNumber = parsePhoneNumberFromString(completeNumber);
+
+      if (phoneNumber) {
+        console.log("country code:", phoneNumber.countryCallingCode);
+        console.log("tel number:", phoneNumber.nationalNumber);
+        if(phoneNumber.isValid()) {
+          this.setState({validity: true});
+        }
+      } else {
+        console.log("validity", this.state.validity)
+      }
     }
 
     render() {

@@ -85,7 +85,6 @@ class Cards extends React.Component {
   }
   
     render() {
-      console.log("cards", this.state.events);
       const { classes } = this.props;
 
       return (
