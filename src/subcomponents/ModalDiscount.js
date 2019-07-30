@@ -156,7 +156,6 @@ const styles = theme => ({
     },
     buttonLabel: {
         margin: 'auto',
-        height: '100%',
     },
     typoSpecialDiscount: {
         fontSize: '23px',
@@ -239,10 +238,6 @@ class ModalDiscount extends Component {
             startDateShrink: false,
             stopDateShrink: false,
 
-            //Edit/Delete buttons
-            deleteHover: false,
-            editHover: false,
-
             //form data
             ticketType: placeholderText.ticketType,
             price: placeholderText.price,
@@ -263,6 +258,7 @@ class ModalDiscount extends Component {
 
         this.addDiscount = this.addDiscount.bind(this);
         this.deleteDiscount = this.deleteDiscount.bind(this);
+        this.editDiscount = this.editDiscount.bind(this);
     }
 
     shrinkLabel = (event) => {
@@ -361,6 +357,14 @@ class ModalDiscount extends Component {
             ticketType: placeholderText.ticketType,
             price: placeholderText.price,
             discount: placeholderText.discount,
+            startDate: "",
+            stopDate: "",
+            ticketTypeShrink: false,
+            priceShrink: false,
+            discountShrink: false,
+            startDateShrink: false,
+            stopDateShrink: false,
+
         }))
     }
 
@@ -368,6 +372,19 @@ class ModalDiscount extends Component {
         let discounts = [...this.state.discountGroup];
         discounts.splice(e.target.id, 1);
         this.setState({discountGroup: discounts});
+    }
+
+    editDiscount(e) {
+        let discounts = [...this.state.discountGroup];
+        let chosen = discounts[e.target.id];
+        console.log(chosen);
+        // this.setState({
+        //     ticketType: chosen.ticketType,
+        //     price: chosen.price,
+        //     discount: chosen.discount,
+        //     startDate: chosen.startDate,
+        //     stopDate: chosen.stopDate
+        // })
     }
 
     render() {
@@ -665,12 +682,15 @@ class ModalDiscount extends Component {
                                             label: classes.buttonLabel,
                                             }}>
                                         <DeleteIcon 
+                                            id={index}
                                             className="delete-icon"
                                             style={{ marginRight: '5px',}} 
                                             fill="#4a4a4a"
                                             /> Delete
                                     </Button>
                                     <Button 
+                                        onClick={this.editDiscount}
+                                        id={index}
                                         variant="outlined" 
                                         className="edit-button"
                                         classes={{
@@ -678,6 +698,7 @@ class ModalDiscount extends Component {
                                             label: classes.buttonLabel,
                                             }}>
                                         <EditIcon
+                                            id={index}
                                             className="edit-icon"
                                             style={{ marginRight: '5px', }} 
                                             stroke="#4a4a4a"
