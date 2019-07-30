@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import  '../App.css';
 
 import { withStyles } from '@material-ui/core/styles';
-import { FormGroup, Typography } from "@material-ui/core"; 
+import { FormGroup, Typography, RootRef } from "@material-ui/core"; 
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -260,7 +260,9 @@ class ModalDiscount extends Component {
         this.onDiscountChange = this.onDiscountChange.bind(this);
         this.onStartDateChange = this.onStartDateChange.bind(this);
         this.onStopDateChange = this.onStopDateChange.bind(this);
+
         this.addDiscount = this.addDiscount.bind(this);
+        this.deleteDiscount = this.deleteDiscount.bind(this);
     }
 
     shrinkLabel = (event) => {
@@ -362,6 +364,12 @@ class ModalDiscount extends Component {
         }))
     }
 
+    deleteDiscount(e) {
+        let discounts = [...this.state.discountGroup];
+        discounts.splice(e.target.id, 1);
+        this.setState({discountGroup: discounts});
+    }
+
     render() {
 
         const { classes } = this.props;
@@ -403,9 +411,11 @@ class ModalDiscount extends Component {
                     >
                         <DiscountIcon width="37px" height="37px" />Need to set up special ticket discount?
                     </Typography>
-                    <form onSubmit={(event) => {
-                            event.preventDefault();
-                            
+                    <form 
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            console.log(e);
+                            this.addDiscount();
                         }  
                     }>
                         <FormGroup row classes={{root: classes.formGroup}}>
@@ -437,9 +447,6 @@ class ModalDiscount extends Component {
                                             shrink: classes.inputLabelShrink,
                                         },
                                         shrink: this.state.ticketTypeShrink,
-                                    }}
-                                    inputProps={{
-                                        required: true,
                                     }}
                                 />
                             </FormControl>
@@ -544,11 +551,10 @@ class ModalDiscount extends Component {
                                             }, 
                                             disableUnderline: true,
                                             endAdornment: 
-                                            !this.state.startDateShrink && 
                                                 <InputAdornment 
                                                     position="end"
                                                     classes={{positionEnd: classes.inputAdornment}}>
-                                                    <CalendarIcon fill="#000000" />
+                                                    <CalendarIcon fill={this.state.startDateShrink ? "transparent" : "#000000"} />
                                                 </InputAdornment>,
                                             inputProps: {
                                                 style: this.state.startDateShrink ? inputNativeAfter : inputNativeBefore,
@@ -583,11 +589,10 @@ class ModalDiscount extends Component {
                                         }, 
                                         disableUnderline: true,
                                         endAdornment: 
-                                        !this.state.stopDateShrink && 
                                             <InputAdornment 
                                                 position="end"
                                                 classes={{positionEnd: classes.inputAdornment}}>
-                                                <CalendarIcon fill="#000000" />
+                                                <CalendarIcon fill={this.state.stopDateShrink ? "transparent" : "#000000"} />
                                             </InputAdornment>,
                                         inputProps: {
                                             style: this.state.stopDateShrink ? inputNativeAfter : inputNativeBefore,
@@ -607,7 +612,7 @@ class ModalDiscount extends Component {
                         </FormGroup>
                         <Grid container direction="row" justify="flex-end" classes={{root: classes.buttonContainer}}>
                             <Button 
-                                onClick={this.addDiscount}
+                                type="submit"
                                 classes={{
                                     root: classes.discountButton
                                 }}>Add Discount</Button>
@@ -650,7 +655,11 @@ class ModalDiscount extends Component {
                                     justify="flex-end"
                                     alignItems="flex-start">
                                     <Button 
+                                        onClick={this.deleteDiscount}
+                                        id={index}
                                         variant="outlined" 
+                                        className="delete-button"
+                                        id={index}
                                         classes={{
                                             root: classes.buttonDelete,
                                             label: classes.buttonLabel,
@@ -658,18 +667,20 @@ class ModalDiscount extends Component {
                                         <DeleteIcon 
                                             className="delete-icon"
                                             style={{ marginRight: '5px',}} 
-                                            fill={this.state.deleteHover ? "#ffffff" : "#4a4a4a"}
+                                            fill="#4a4a4a"
                                             /> Delete
                                     </Button>
                                     <Button 
                                         variant="outlined" 
+                                        className="edit-button"
                                         classes={{
                                             root: classes.buttonEdit,
                                             label: classes.buttonLabel,
                                             }}>
                                         <EditIcon
+                                            className="edit-icon"
                                             style={{ marginRight: '5px', }} 
-                                            stroke={this.state.editHover ? "rgb(255,255,255)" : "rgb(74,74,74)"}
+                                            stroke="#4a4a4a"
                                             /> Edit
                                     </Button>
                                 </Grid>

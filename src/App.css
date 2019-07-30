@@ -14,3 +14,11 @@ button:focus {
 .row-margin {
   margin-bottom: 22px;
 }
+
+.delete-button:hover .delete-icon {
+  fill: #ffffff;
+}
+
+.edit-button:hover .edit-icon {
+  stroke: #ffffff;
+}
